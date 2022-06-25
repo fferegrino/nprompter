@@ -1,0 +1,48 @@
+from typing import Tuple, Dict, List
+
+import requests
+
+def build_filter_query(properties: Tuple[str, str, str]) -> Dict:
+    """
+    Builds a query to filter for pages with the properties specified as triplets
+
+    :param properties: A list of triplets containing (property, condition, value)
+    :return:
+    """
+
+    or_conditions = [
+        {"property": property_name, "select": {condition: value}} for property_name, condition, value in properties
+    ]
+
+    return {"filter": {"or": or_conditions}}
+
+
+class NotionClient:
+    def __init__(self, notion_api_key: str, notion_version: str):
+        self.headers = {
+            "Authorization": f"Bearer {notion_api_key}",
+            "Notion-Version": notion_version,
+        }
+
+    def get_database(self, database_id: str) -> Dict:
+        database = requests.get(
+            f"https://api.notion.com/v1/databases/{database_id}",
+            headers=self.headers,
+        ).json()
+        return database
+
+    def get_pages(self, database_id: str, page_status: str) -> List[Dict]:
+        query = build_filter_query([("Status", "equals", page_status)])
+        database = requests.post(
+            f"https://api.notion.com/v1/databases/{database_id}/query",
+            json=query,
+            headers=self.headers,
+        ).json()
+        return database["results"]
+
+    def get_blocks(self, page_id: str) -> List[Dict]:
+        page = requests.get(
+            f"https://api.notion.com/v1/blocks/{page_id}/children",
+            headers=self.headers,
+        ).json()
+        return page["results"]
