@@ -55,7 +55,3 @@ class HtmlNotionProcessor:
         file_name = Path(self.output_folder, f"{title_slug}.html")
         with open(file_name, "w", encoding="utf8") as writeable:
             writeable.write(content)
-
-        self.assets_folder
-        breakpoint()
-        pass
