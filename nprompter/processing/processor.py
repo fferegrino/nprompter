@@ -1,5 +1,6 @@
 import shutil
 from pathlib import Path
+from typing import Union
 
 import pkg_resources
 from jinja2 import PackageLoader, select_autoescape, Environment
