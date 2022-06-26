@@ -1,5 +1,7 @@
+import shutil
 from pathlib import Path
 
+import pkg_resources
 from jinja2 import PackageLoader, select_autoescape, Environment
 
 from nprompter.api.notion_client import NotionClient
@@ -13,10 +15,13 @@ class HtmlNotionProcessor:
         env = Environment(
             loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape()
         )
+        self.assets_folder = Path(pkg_resources.resource_filename("nprompter", "web/assets/"))
         self.script_template = env.get_template("script.html")
 
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
+
+        shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
     def process_database(self, database_id: str):
         database = self.notion_client.get_database(database_id)
@@ -50,3 +55,7 @@ class HtmlNotionProcessor:
         file_name = Path(self.output_folder, f"{title_slug}.html")
         with open(file_name, "w", encoding="utf8") as writeable:
             writeable.write(content)
+
+        self.assets_folder
+        breakpoint()
+        pass
