@@ -26,16 +26,24 @@ class NotionClient:
         }
 
     def get_database(self, database_id: str) -> Dict:
-        database = requests.get(f"https://api.notion.com/v1/databases/{database_id}", headers=self.headers,).json()
+        database = requests.get(
+            f"https://api.notion.com/v1/databases/{database_id}",
+            headers=self.headers,
+        ).json()
         return database
 
     def get_pages(self, database_id: str, page_status: str) -> List[Dict]:
         query = build_filter_query([("Status", "equals", page_status)])
         database = requests.post(
-            f"https://api.notion.com/v1/databases/{database_id}/query", json=query, headers=self.headers,
+            f"https://api.notion.com/v1/databases/{database_id}/query",
+            json=query,
+            headers=self.headers,
         ).json()
         return database["results"]
 
     def get_blocks(self, page_id: str) -> List[Dict]:
-        page = requests.get(f"https://api.notion.com/v1/blocks/{page_id}/children", headers=self.headers,).json()
+        page = requests.get(
+            f"https://api.notion.com/v1/blocks/{page_id}/children",
+            headers=self.headers,
+        ).json()
         return page["results"]

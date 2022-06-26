@@ -9,9 +9,9 @@ from slugify import slugify
 
 
 class HtmlNotionProcessor:
-    def __init__(self, notion_client: NotionClient):
+    def __init__(self, notion_client: NotionClient, output_folder: Union[str, Path]):
         self.notion_client = notion_client
-        self.output_folder = Path(".content")
+        self.output_folder = Path(output_folder)
         env = Environment(
             loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape()
         )
