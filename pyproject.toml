@@ -8,6 +8,8 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.8"
 requests = "^2.28.0"
+Jinja2 = "^3.1.2"
+python-slugify = "^6.1.2"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

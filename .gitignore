@@ -1,4 +1,5 @@
 .env
 .gitignore
 .idea/
+.content/
 *.pyc
