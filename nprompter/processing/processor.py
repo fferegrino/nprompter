@@ -1,13 +1,28 @@
+from pathlib import Path
+
+from jinja2 import PackageLoader, select_autoescape, Environment
+
 from nprompt.api.notion_client import NotionClient
+from slugify import slugify
 
 
 class HtmlNotionProcessor:
     def __init__(self, notion_client: NotionClient):
         self.notion_client = notion_client
+        self.output_folder = Path('.content')
+        env = Environment(loader=PackageLoader("nprompter"), autoescape=select_autoescape())
+        self.script_template = env.get_template("script.html")
+
+        if not self.output_folder.exists():
+            self.output_folder.mkdir(parents=True)
 
     def process_database(self, database_id: str):
         database = self.notion_client.get_database(database_id)
         pages = self.notion_client.get_pages(database_id, "Ready")
+
+        title = pages[0]['title']
+        title_slug = slugify(title)
+
         blocks = self.notion_client.get_blocks(pages[0]["id"])
 
         block_contents = []
@@ -27,3 +42,9 @@ class HtmlNotionProcessor:
             paragraph_content = "".join(paragraph_content_tags)
 
             block_contents.append(f"<p>{paragraph_content}</p>")
+
+        content = self.script_template.render(elements=block_contents, title=title)
+
+        file_name = Path(self.output_folder, f"{title_slug}.html")
+        with open(file_name, "w", encoding="utf8") as writeable:
+            writeable.write(content)
