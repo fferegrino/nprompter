@@ -10,7 +10,9 @@ class HtmlNotionProcessor:
     def __init__(self, notion_client: NotionClient):
         self.notion_client = notion_client
         self.output_folder = Path(".content")
-        env = Environment(loader=PackageLoader("nprompter"), autoescape=select_autoescape())
+        env = Environment(
+            loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape()
+        )
         self.script_template = env.get_template("script.html")
 
         if not self.output_folder.exists():
