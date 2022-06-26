@@ -8,3 +8,22 @@ body {
     font-size: 50px;
     padding: 100px 50px;
 }
+
+#help {
+  background-color: black;
+  font-size: 20px;
+  display: block;
+  padding: 3px;
+  font-family: 'Lato', sans-serif;
+  position: fixed;
+  top:0; left:0;
+  width: 100%;
+}
+
+.mirrored {
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}

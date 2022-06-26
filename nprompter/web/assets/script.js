@@ -2,6 +2,8 @@ let scrollTimer = 0;
 let isScrolling = false;
 let scrollSpeed = 10;
 
+const content = document.getElementById('content')
+const elem = document.documentElement;
 
 document.addEventListener('keydown', logKey);
 
@@ -13,21 +15,39 @@ function logKey(e) {
     }
 }
 
+/* View in fullscreen */
+function openFullscreen() {
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        /* Safari */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
+const controls = {
+    27: [function() {
+        window.scrollTo(0, 0)
+    }, "Scroll to top", 'esc'],
+    32: [toggleScrolling, "Start scroll", 'space'],
+    70: [openFullscreen, "Fullscreen", 'f'],
+    77: [function() {
+        content.classList.toggle('mirrored');
+    }, "Mirror screen", 'm']
+}
+
 function handleKeyCode(keyCode) {
     let handled = true;
-
-    switch (keyCode) {
-        case 27: // Escape
-            window.scrollTo(0, 0);
-            break;
-        case 32: // Space
-            toggleScrolling();
-            break;
-        default:
-            handled = false;
-            break;
+    if (keyCode in controls) {
+        const [action, docs, key] = controls[keyCode]
+        action()
+    } else {
+        handled = false;
+        console.log("Not handled " + keyCode)
     }
-
     if (handled) {
         // updateDebug();
     }
@@ -51,3 +71,12 @@ function toggleScrolling() {
         isScrolling = false;
     }
 }
+
+
+const commands = [];
+
+for (var [keyCode, [fn, docs, key]] of Object.entries(controls)) {
+    commands.push(`<kbd>${key}</kbd>: ${docs}`)
+}
+const help = document.getElementById('help')
+help.innerHTML = commands.join(' ')
