@@ -18,6 +18,7 @@ class HtmlNotionProcessor:
         )
         self.assets_folder = Path(pkg_resources.resource_filename("nprompter", "web/assets/"))
         self.script_template = env.get_template("script.html")
+        self.index_template = env.get_template("index.html")
 
     def prepare_folder(self):
         if not self.output_folder.exists():
@@ -25,14 +26,26 @@ class HtmlNotionProcessor:
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
     def process_database(self, database_id: str):
+        db = self._process_single_database(database_id)
+
+        content = self.index_template.render(databases=[db])
+        with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
+            writeable.write(content)
+
+    def _process_single_database(self, database_id):
         database = self.notion_client.get_database(database_id)
         pages = self.notion_client.get_pages(database_id, "Ready")
+        # Create database folder
+        (self.output_folder / database_id).mkdir(exist_ok=True)
+        database_dict = {"title": database["title"][0]["plain_text"], "scripts": []}
+        for page in pages:
+            database_dict["scripts"].append(self.process_page(database_id, page))
+        return database_dict
 
-        title = pages[0]["properties"]["Name"]["title"][0]["text"]["content"]
+    def process_page(self, database_id: str, page: dict):
+        title = page["properties"]["Name"]["title"][0]["text"]["content"]
         title_slug = slugify(title)
-
-        blocks = self.notion_client.get_blocks(pages[0]["id"])
-
+        blocks = self.notion_client.get_blocks(page["id"])
         block_contents = []
         for block in blocks:
             if block["type"] != "paragraph":
@@ -50,9 +63,11 @@ class HtmlNotionProcessor:
             paragraph_content = "".join(paragraph_content_tags)
 
             block_contents.append(f"<p>{paragraph_content}</p>")
-
         content = self.script_template.render(elements=block_contents, title=title)
 
-        file_name = Path(self.output_folder, f"{title_slug}.html")
+        file_name = Path(self.output_folder, database_id, f"{title_slug}.html")
         with open(file_name, "w", encoding="utf8") as writeable:
             writeable.write(content)
+
+        from_root_path = f"{database_id}/{title_slug}.html"
+        return {"title": title, "path": from_root_path}

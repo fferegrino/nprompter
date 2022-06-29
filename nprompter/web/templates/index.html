@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Nprompter</title>
+    </head>
+    <body>
+
+        {% for database in databases %}
+            <h2>{{ database.title }}</h2>
+            {% for script in database.scripts %}
+                <a href="{{ script.path }}">{{ script.title }}</a>
+            {% endfor %}
+        {% endfor %}
+    </body>
+</html>
