@@ -17,13 +17,17 @@ DEFAULT_PATH = ".content"
 
 
 @app.command()
-def build(database_id: str, content_directory: Union[str, None] = DEFAULT_PATH):
+def build(database_id: str, content_directory: Union[str, None] = DEFAULT_PATH, just_assets: bool = False):
     notion_api_key = os.environ["NOTION_API_KEY"]
     notion_version = os.environ["NOTION_VERSION"]
 
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
     processor = HtmlNotionProcessor(notion_client, output_folder=content_directory)
-    processor.process_database(database_id)
+
+    processor.prepare_folder()
+
+    if not just_assets:
+        processor.process_database(database_id)
 
 
 @app.command()

@@ -19,9 +19,9 @@ class HtmlNotionProcessor:
         self.assets_folder = Path(pkg_resources.resource_filename("nprompter", "web/assets/"))
         self.script_template = env.get_template("script.html")
 
+    def prepare_folder(self):
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
-
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
     def process_database(self, database_id: str):
