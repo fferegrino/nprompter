@@ -6,8 +6,8 @@
         <link href="nprompter.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="help"></div>
-        <div id="content" class="mirrored">
+        <div id="help" class="mirror mirrored"></div>
+        <div id="content" class="mirror mirrored">
             {% for element in elements %}{{ element|safe }}
             {% endfor %}
         </div>

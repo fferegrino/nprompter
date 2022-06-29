@@ -1,4 +1,5 @@
 const content = document.getElementById('content')
+const mirroreableElements = document.getElementsByClassName('mirror')
 const elem = document.documentElement;
 const manualScrollAmount = 10;
 const fontSizeIncrease = 2;
@@ -68,7 +69,9 @@ const controls = {
     32: [toggleScrolling, "Start scroll", 'space'],
     70: [openFullscreen, "Fullscreen", 'f'],
     77: [function() {
-        content.classList.toggle('mirrored');
+        for (let i = 0; i < mirroreableElements.length; i++) {
+            mirroreableElements[i].classList.toggle('mirrored');
+        }
     }, "Mirror screen", 'm']
 }
 
@@ -107,7 +110,7 @@ function toggleScrolling() {
 const commands = [];
 
 for (var [keyCode, [fn, docs, key]] of Object.entries(controls)) {
-    commands.push(`<kbd>${key}</kbd>: ${docs}`)
+    commands.push(`<span class="command"></span><kbd>${key}</kbd>: ${docs}</span>`)
 }
 const help = document.getElementById('help')
 help.innerHTML = commands.join(' ')
