@@ -46,23 +46,7 @@ class HtmlNotionProcessor:
         title = page["properties"]["Name"]["title"][0]["text"]["content"]
         title_slug = slugify(title)
         blocks = self.notion_client.get_blocks(page["id"])
-        block_contents = []
-        for block in blocks:
-            if block["type"] != "paragraph":
-                continue
-
-            paragraph_content_tags = []
-            for content in block["paragraph"]["text"]:
-                if text := content.get("text"):
-                    text_content = text["content"]
-                    annotations = content["annotations"]
-                    annotations_tags = ["bold", "italic", "strikethrough", "underline"]
-                    classes = " ".join(["paragraph"] + [tag for tag in annotations_tags if annotations.get(tag)])
-                    tag = f'<span class="{classes}">{text_content}</span>'
-                    paragraph_content_tags.append(tag)
-            paragraph_content = "".join(paragraph_content_tags)
-
-            block_contents.append(f"<p>{paragraph_content}</p>")
+        block_contents = self.process_blocks(blocks)
         content = self.script_template.render(elements=block_contents, title=title)
 
         file_name = Path(self.output_folder, database_id, f"{title_slug}.html")
@@ -71,3 +55,26 @@ class HtmlNotionProcessor:
 
         from_root_path = f"{database_id}/{title_slug}.html"
         return {"title": title, "path": from_root_path}
+
+    def process_blocks(self, blocks):
+        block_contents = []
+        for block in blocks:
+            if block["type"] != "paragraph":
+                continue
+
+            contents = block["paragraph"].get("text", block["paragraph"].get("rich_text", []))
+            paragraph_content_tags = []
+            for content in contents:
+                if text := content.get("text"):
+                    text_content = text["content"]
+                    annotations = content["annotations"]
+                    annotations_tags = ["bold", "italic", "strikethrough", "underline"]
+                    classes = " ".join(["paragraph"] + [tag for tag in annotations_tags if annotations.get(tag)])
+                    tag = f'<span class="{classes}">{text_content}</span>'
+                    paragraph_content_tags.append(tag)
+
+            if paragraph_content_tags:
+                paragraph_content = "".join(paragraph_content_tags)
+                block_contents.append(f"<p>{paragraph_content}</p>")
+
+        return block_contents
