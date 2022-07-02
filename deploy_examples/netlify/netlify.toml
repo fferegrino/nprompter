@@ -8,3 +8,6 @@ ignore = "exit 1"
 environment = { PYTHON_VERSION = "3.8" }
 # Don't forget to add your NOTION_API_KEY to the environment using the Netlify UI
 # NEVER put the value of NOTION_API_KEY in a plain text file!
+
+[context.deploy-preview]
+environment = { PYTHON_VERSION = "3.8" }
