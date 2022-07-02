@@ -1,12 +1,13 @@
+import logging
 import shutil
 from pathlib import Path
 from typing import Union
-import logging
+
 import pkg_resources
-from jinja2 import PackageLoader, select_autoescape, Environment
+from jinja2 import Environment, PackageLoader, select_autoescape
+from slugify import slugify
 
 from nprompter.api.notion_client import NotionClient
-from slugify import slugify
 
 
 class HtmlNotionProcessor:
