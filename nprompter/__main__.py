@@ -4,9 +4,9 @@ import webbrowser
 from http.server import SimpleHTTPRequestHandler
 from typing import Any, Union
 
-import nprompter
 import typer
 
+import nprompter
 from nprompter.api.notion_client import NotionClient
 from nprompter.processing.processor import HtmlNotionProcessor
 
