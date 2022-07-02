@@ -1,6 +1,6 @@
 [build]
 base = "deploy_examples/netlify"
-publish = "deploy_examples/netlify/.content"
+publish = ".content"
 command = "nprompter build c68ccc052d1b4eaaa3091e637f7011c0"
 
 [context.production]
