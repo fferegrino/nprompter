@@ -1,4 +1,4 @@
-from typing import Tuple, Dict, List
+from typing import Dict, List, Tuple
 
 import requests
 

@@ -1,15 +1,13 @@
+import os
 import socketserver
 import webbrowser
 from http.server import SimpleHTTPRequestHandler
 from typing import Any, Union
 
-import os
-
 import typer
 
 from nprompter.api.notion_client import NotionClient
 from nprompter.processing.processor import HtmlNotionProcessor
-
 
 app = typer.Typer(add_completion=False)
 
