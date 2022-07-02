@@ -1,0 +1,30 @@
+name: Pull request check
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  check:
+    name: Check style
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry==1.1.13
+        poetry config virtualenvs.create false --local
+        poetry install
+    - name: Run Flake8
+      run: pflake8 .
+    - name: Run iSort
+      run: isort . --check-only
+    - name: Run Black
+      run: black . --check
