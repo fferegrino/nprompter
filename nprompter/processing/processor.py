@@ -1,7 +1,7 @@
 import shutil
 from pathlib import Path
 from typing import Union
-
+import logging
 import pkg_resources
 from jinja2 import PackageLoader, select_autoescape, Environment
 
@@ -19,6 +19,7 @@ class HtmlNotionProcessor:
         self.assets_folder = Path(pkg_resources.resource_filename("nprompter", "web/assets/"))
         self.script_template = env.get_template("script.html")
         self.index_template = env.get_template("index.html")
+        self.logger = logging.getLogger("NotionProcessor")
 
     def prepare_folder(self):
         if not self.output_folder.exists():
@@ -56,25 +57,38 @@ class HtmlNotionProcessor:
         from_root_path = f"{database_id}/{title_slug}.html"
         return {"title": title, "path": from_root_path}
 
+    processable_blocks = {"paragraph", *[f"heading_{idx}" for idx in range(1, 7)]}
+
     def process_blocks(self, blocks):
         block_contents = []
         for block in blocks:
-            if block["type"] != "paragraph":
+            block_type = block["type"]
+            if block_type == "paragraph":
+                if data := self.process_paragraph(block, "paragraph", "p"):
+                    block_contents.append(data)
+            elif block_type.startswith("heading_"):
+                size = block_type[-1]
+                if data := self.process_paragraph(block, block_type, f"h{size}"):
+                    block_contents.append(data)
+            else:
+                self.logger.warning(f"Block of type {block['type']} is not currently supported by Nprompter")
+                # breakpoint()
                 continue
 
-            contents = block["paragraph"].get("text", block["paragraph"].get("rich_text", []))
-            paragraph_content_tags = []
-            for content in contents:
-                if text := content.get("text"):
-                    text_content = text["content"]
-                    annotations = content["annotations"]
-                    annotations_tags = ["bold", "italic", "strikethrough", "underline"]
-                    classes = " ".join(["paragraph"] + [tag for tag in annotations_tags if annotations.get(tag)])
-                    tag = f'<span class="{classes}">{text_content}</span>'
-                    paragraph_content_tags.append(tag)
-
-            if paragraph_content_tags:
-                paragraph_content = "".join(paragraph_content_tags)
-                block_contents.append(f"<p>{paragraph_content}</p>")
-
         return block_contents
+
+    def process_paragraph(self, block, block_type, tag_name):
+        contents = block[block_type].get("text", block[block_type].get("rich_text", []))
+        paragraph_content_tags = []
+        for content in contents:
+            if text := content.get("text"):
+                text_content = text["content"]
+                annotations = content["annotations"]
+                annotations_tags = ["bold", "italic", "strikethrough", "underline"]
+                classes = " ".join([block_type] + [tag for tag in annotations_tags if annotations.get(tag)])
+                tag = f'<span class="{classes}">{text_content}</span>'
+                paragraph_content_tags.append(tag)
+        if paragraph_content_tags:
+            paragraph_content = "".join(paragraph_content_tags)
+            return f"<{tag_name}>{paragraph_content}</{tag_name}>"
+        return None
