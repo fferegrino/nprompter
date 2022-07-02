@@ -30,7 +30,7 @@ jobs:
     - name: Run Black
       run: black . --check
     - name: Release
-      if: startsWith(github.ref, 'refs/tags/'
+      if: startsWith(github.ref, 'refs/tags/')
       env:
         PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
