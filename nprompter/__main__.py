@@ -4,6 +4,7 @@ import webbrowser
 from http.server import SimpleHTTPRequestHandler
 from typing import Any, Union
 
+import nprompter
 import typer
 
 from nprompter.api.notion_client import NotionClient
@@ -17,7 +18,7 @@ DEFAULT_PATH = ".content"
 @app.command()
 def build(database_id: str, content_directory: Union[str, None] = DEFAULT_PATH, just_assets: bool = False):
     notion_api_key = os.environ["NOTION_API_KEY"]
-    notion_version = os.environ["NOTION_VERSION"]
+    notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
     processor = HtmlNotionProcessor(notion_client, output_folder=content_directory)
