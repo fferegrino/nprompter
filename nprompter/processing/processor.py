@@ -57,14 +57,35 @@ class HtmlNotionProcessor:
         from_root_path = f"{database_id}/{title_slug}.html"
         return {"title": title, "path": from_root_path}
 
-    processable_blocks = {"paragraph", *[f"heading_{idx}" for idx in range(1, 7)]}
-
     def process_blocks(self, blocks):
         block_contents = []
+
+        bulleted_list_item = False
+        numbered_list_item = False
         for block in blocks:
             block_type = block["type"]
+
+            # Control for lists
+            if block_type == "bulleted_list_item" and not bulleted_list_item:
+                block_contents.append("<ul>")
+                bulleted_list_item = True
+            elif block_type != "bulleted_list_item" and bulleted_list_item:
+                block_contents.append("</ul>")
+
+            if block_type == "numbered_list_item" and not numbered_list_item:
+                block_contents.append("<ol>")
+                numbered_list_item = True
+            elif block_type != "numbered_list_item" and numbered_list_item:
+                block_contents.append("</ol>")
+
             if block_type == "paragraph":
                 if data := self.process_paragraph(block, "paragraph", "p"):
+                    block_contents.append(data)
+            elif block_type == "quote" or block_type == "callout":
+                if data := self.process_paragraph(block, block_type, "blockquote"):
+                    block_contents.append(data)
+            elif block_type == "bulleted_list_item" or block_type == "numbered_list_item":
+                if data := self.process_paragraph(block, block_type, "li"):
                     block_contents.append(data)
             elif block_type.startswith("heading_"):
                 size = block_type[-1]
@@ -72,8 +93,6 @@ class HtmlNotionProcessor:
                     block_contents.append(data)
             else:
                 self.logger.warning(f"Block of type {block['type']} is not currently supported by Nprompter")
-                # breakpoint()
-                continue
 
         return block_contents
 
