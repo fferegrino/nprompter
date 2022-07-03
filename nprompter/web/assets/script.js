@@ -1,5 +1,7 @@
 const content = document.getElementById('content')
 const body = document.getElementsByTagName("body")[0]
+const modal = document.getElementById('modal')
+const modalFader = document.getElementById('modal-fader')
 const elem = document.documentElement;
 const manualScrollAmount = 10;
 const fontSizeIncrease = 2;
@@ -38,10 +40,14 @@ function openFullscreen() {
 }
 
 
+function toggleModalWindow () {
+    modal.classList.toggle("open")
+}
+
 const controls = {
     27: [function() {
         window.scrollTo(0, 0)
-    }, "Scroll to top", 'esc'],
+    }, "Scroll to top", 'escape'],
     37: [function() {
         scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
     }, "Decrease speed", '→'],
@@ -52,22 +58,23 @@ const controls = {
         paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
         content.style.paddingLeft = paddingSize + "px"
         content.style.paddingRight = paddingSize + "px"
-    }, "Increase padding", 'P'],
+    }, "Increase padding", 'p'],
     79: [function() {
         paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
         content.style.paddingLeft = paddingSize + "px"
         content.style.paddingRight = paddingSize + "px"
-    }, "Decrease padding", 'O'],
+    }, "Decrease padding", 'o'],
     85: [function() {
         fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
         content.style.fontSize = fontSize + "px"
-    }, "Increase font size", 'U'],
+    }, "Increase font size", 'u'],
     68: [function() {
         fontSize = Math.max(0, fontSize - fontSizeIncrease);
         content.style.fontSize = fontSize + "px"
     }, "Decrease font size", 'D'],
     32: [toggleScrolling, "Start scroll", 'space'],
     70: [openFullscreen, "Fullscreen", 'f'],
+    72: [toggleModalWindow, "Help", 'h'],
     77: [function() {
         body.classList.toggle('mirrored');
     }, "Mirror screen", 'm']
@@ -108,7 +115,8 @@ function toggleScrolling() {
 const commands = [];
 
 for (var [keyCode, [fn, docs, key]] of Object.entries(controls)) {
-    commands.push(`<span class="command"></span><kbd>${key}</kbd>: ${docs}</span>`)
+    commands.push(`<li class="command"><kbd>${key}</kbd>: ${docs}</li>`)
 }
 const help = document.getElementById('help')
 help.innerHTML = commands.join(' ')
+
