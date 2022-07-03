@@ -6,7 +6,7 @@
         <link href="/nprompter.css" rel="stylesheet"/>
     </head>
     <body>
-        <div id="content">
+        <div class="mirror mirrored" id="content">
         {% for database in databases %}
             <h2>{{ database.title }}</h2>
             <ul>
@@ -17,7 +17,7 @@
         {% endfor %}
         </div>
         <!-- Modal with help -->
-        <div class="modal" id="modal">
+        <div class="modal mirror mirrored" id="modal">
             <div class="modal-bg modal-exit"></div>
             <div class="modal-container">
                 <h2>Help - v{{ version }}</h2>

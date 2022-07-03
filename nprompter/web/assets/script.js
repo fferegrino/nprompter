@@ -1,7 +1,6 @@
 const content = document.getElementById('content')
-const body = document.getElementsByTagName("body")[0]
+const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
 const modal = document.getElementById('modal')
-const modalFader = document.getElementById('modal-fader')
 const elem = document.documentElement;
 const manualScrollAmount = 10;
 const fontSizeIncrease = 2;
@@ -76,7 +75,9 @@ const controls = {
     70: [openFullscreen, "Fullscreen", 'f'],
     72: [toggleModalWindow, "Help", 'h'],
     77: [function() {
-        body.classList.toggle('mirrored');
+        mirrorElements.forEach(function (element){
+            element.classList.toggle('mirrored')
+        })
     }, "Mirror screen", 'm']
 }
 

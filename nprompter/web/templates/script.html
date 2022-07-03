@@ -6,19 +6,18 @@
         <link href="/nprompter.css" rel="stylesheet"/>
     </head>
     <body>
-        <div id="content">
+        <div id="content" class="mirror mirrored">
             {% for element in elements %}{{ element|safe }}
             {% endfor %}
         </div>
         <!-- Modal with help -->
-        <div class="modal" id="modal">
+        <div class="modal mirror mirrored" id="modal">
             <div class="modal-bg modal-exit"></div>
             <div class="modal-container">
                 <h2>Help - v{{ version }}</h2>
                 <ul id="help"></ul>
             </div>
         </div>
-
         <script src="/script.js"></script>
     </body>
 </html>
