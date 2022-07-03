@@ -3,14 +3,27 @@
     <head>
         <meta charset="UTF-8">
         <title>Nprompter</title>
+        <link href="/nprompter.css" rel="stylesheet"/>
     </head>
     <body>
-
+        <div class="mirror mirrored" id="content">
         {% for database in databases %}
             <h2>{{ database.title }}</h2>
-            {% for script in database.scripts %}
-                <a href="{{ script.path }}">{{ script.title }}</a>
-            {% endfor %}
+            <ul>
+                {% for script in database.scripts %}
+                    <li><a href="{{ script.path }}">{{ script.title }}</a></li>
+                {% endfor %}
+            </ul>
         {% endfor %}
+        </div>
+        <!-- Modal with help -->
+        <div class="modal mirror mirrored" id="modal">
+            <div class="modal-bg modal-exit"></div>
+            <div class="modal-container">
+                <h2>Help - v{{ version }}</h2>
+                <ul id="help"></ul>
+            </div>
+        </div>
+        <script src="/script.js"></script>
     </body>
 </html>

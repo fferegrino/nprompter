@@ -7,6 +7,7 @@ import pkg_resources
 from jinja2 import Environment, PackageLoader, select_autoescape
 from slugify import slugify
 
+import nprompter
 from nprompter.api.notion_client import NotionClient
 
 
@@ -30,7 +31,7 @@ class HtmlNotionProcessor:
     def process_database(self, database_id: str):
         db = self._process_single_database(database_id)
 
-        content = self.index_template.render(databases=[db])
+        content = self.index_template.render(databases=[db], version=nprompter.__version__)
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
@@ -49,7 +50,7 @@ class HtmlNotionProcessor:
         title_slug = slugify(title)
         blocks = self.notion_client.get_blocks(page["id"])
         block_contents = self.process_blocks(blocks)
-        content = self.script_template.render(elements=block_contents, title=title)
+        content = self.script_template.render(elements=block_contents, title=title, version=nprompter.__version__)
 
         file_name = Path(self.output_folder, database_id, f"{title_slug}.html")
         with open(file_name, "w", encoding="utf8") as writeable:
