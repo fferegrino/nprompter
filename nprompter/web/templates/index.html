@@ -3,14 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>Nprompter</title>
+        <link href="/nprompter.css" rel="stylesheet"/>
     </head>
     <body>
-
+        <div id="content">
         {% for database in databases %}
             <h2>{{ database.title }}</h2>
-            {% for script in database.scripts %}
-                <a href="{{ script.path }}">{{ script.title }}</a>
-            {% endfor %}
+            <ul>
+                {% for script in database.scripts %}
+                    <li><a href="{{ script.path }}">{{ script.title }}</a></li>
+                {% endfor %}
+            </ul>
         {% endfor %}
     </body>
 </html>
