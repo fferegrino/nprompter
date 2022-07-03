@@ -32,8 +32,8 @@ class NotionClient:
         ).json()
         return database
 
-    def get_pages(self, database_id: str, page_status: str) -> List[Dict]:
-        query = build_filter_query([("Status", "equals", page_status)])
+    def get_pages(self, database_id: str, property_filter: str, property_value: str) -> List[Dict]:
+        query = build_filter_query([(property_filter, "equals", property_value)])
         database = requests.post(
             f"https://api.notion.com/v1/databases/{database_id}/query",
             json=query,

@@ -2,7 +2,7 @@ import os
 import socketserver
 import webbrowser
 from http.server import SimpleHTTPRequestHandler
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 import typer
 
@@ -16,7 +16,13 @@ DEFAULT_PATH = ".content"
 
 
 @app.command()
-def build(database_id: str, content_directory: Union[str, None] = DEFAULT_PATH, just_assets: bool = False):
+def build(
+    database_id: str,
+    content_directory: Union[str, None] = DEFAULT_PATH,
+    property_filter: Optional[str] = "Status",
+    property_value: Optional[str] = "Ready",
+    just_assets: bool = False,
+):
     notion_api_key = os.environ["NOTION_API_KEY"]
     notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
@@ -26,7 +32,7 @@ def build(database_id: str, content_directory: Union[str, None] = DEFAULT_PATH, 
     processor.prepare_folder()
 
     if not just_assets:
-        processor.process_database(database_id)
+        processor.process_databases(database_id, property_filter, property_value)
 
 
 @app.command()

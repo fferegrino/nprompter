@@ -28,16 +28,16 @@ class HtmlNotionProcessor:
             self.output_folder.mkdir(parents=True)
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
-    def process_database(self, database_id: str):
-        db = self._process_single_database(database_id)
+    def process_databases(self, database_id: str, property_filter: str, property_value: str):
+        db = self._process_single_database(database_id, property_filter, property_value)
 
         content = self.index_template.render(databases=[db], version=nprompter.__version__)
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
-    def _process_single_database(self, database_id):
+    def _process_single_database(self, database_id: str, property_filter: str, property_value: str):
         database = self.notion_client.get_database(database_id)
-        pages = self.notion_client.get_pages(database_id, "Ready")
+        pages = self.notion_client.get_pages(database_id, property_filter, property_value)
         # Create database folder
         (self.output_folder / database_id).mkdir(exist_ok=True)
         database_dict = {"title": database["title"][0]["plain_text"], "scripts": []}

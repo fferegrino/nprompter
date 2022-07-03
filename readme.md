@@ -29,6 +29,10 @@ it is necessary to run:
 nprompter build c68ccc052d1b4eaaa3091e637f7011c0
 ```
 
+Note that all the pages you want to download from your database should contain a *"Status"* property with its value 
+set to *"Ready"*. You can modify the name of the property or its value with the arguments `--property-filter` and 
+`--property-value` of the `nprompter build` command. 
+
 Then, to launch a local webserver, run:
 
 ```bash
