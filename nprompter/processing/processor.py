@@ -93,6 +93,9 @@ class HtmlNotionProcessor:
                 size = block_type[-1]
                 if data := self.process_paragraph(block, block_type, f"h{size}"):
                     block_contents.append(data)
+            elif block_type == "equation":
+                expression = block["equation"]["expression"]
+                block_contents.append(f"<p>${expression}$</p>")
             else:
                 self.logger.warning(f"Block of type {block['type']} is not currently supported by Nprompter")
 
@@ -109,6 +112,8 @@ class HtmlNotionProcessor:
                 classes = " ".join([block_type] + [tag for tag in annotations_tags if annotations.get(tag)])
                 tag = f'<span class="{classes}">{text_content}</span>'
                 paragraph_content_tags.append(tag)
+            elif equation := content.get("equation"):
+                paragraph_content_tags.append(f'${equation["expression"]}$')
         if paragraph_content_tags:
             paragraph_content = "".join(paragraph_content_tags)
             return f"<{tag_name}>{paragraph_content}</{tag_name}>"
