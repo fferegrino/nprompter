@@ -22,16 +22,21 @@ class HtmlNotionProcessor:
         self.script_template = env.get_template("script.html")
         self.index_template = env.get_template("index.html")
         self.logger = logging.getLogger("NotionProcessor")
+        self.custom_css = []
 
     def prepare_folder(self):
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
+    def add_extra_style(self, path: Path):
+        self.custom_css.append(path.name)
+        shutil.copy(path, self.output_folder)
+
     def process_databases(self, database_id: str, property_filter: str, property_value: str):
         db = self._process_single_database(database_id, property_filter, property_value)
 
-        content = self.index_template.render(databases=[db], version=nprompter.__version__)
+        content = self.index_template.render(databases=[db], version=nprompter.__version__, custom_css=self.custom_css)
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
@@ -50,7 +55,9 @@ class HtmlNotionProcessor:
         title_slug = slugify(title)
         blocks = self.notion_client.get_blocks(page["id"])
         block_contents = self.process_blocks(blocks)
-        content = self.script_template.render(elements=block_contents, title=title, version=nprompter.__version__)
+        content = self.script_template.render(
+            elements=block_contents, title=title, version=nprompter.__version__, custom_css=self.custom_css
+        )
 
         file_name = Path(self.output_folder, database_id, f"{title_slug}.html")
         with open(file_name, "w", encoding="utf8") as writeable:

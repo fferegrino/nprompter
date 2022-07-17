@@ -2,6 +2,7 @@ import os
 import socketserver
 import webbrowser
 from http.server import SimpleHTTPRequestHandler
+from pathlib import Path
 from typing import Any, Optional, Union
 
 import typer
@@ -21,6 +22,7 @@ def build(
     content_directory: Union[str, None] = DEFAULT_PATH,
     property_filter: Optional[str] = "Status",
     property_value: Optional[str] = "Ready",
+    custom_css: Optional[Path] = typer.Option(None),
     just_assets: bool = False,
 ):
     notion_api_key = os.environ["NOTION_API_KEY"]
@@ -30,6 +32,9 @@ def build(
     processor = HtmlNotionProcessor(notion_client, output_folder=content_directory)
 
     processor.prepare_folder()
+
+    if custom_css:
+        processor.add_extra_style(custom_css)
 
     if not just_assets:
         processor.process_databases(database_id, property_filter, property_value)
