@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title>Nprompter</title>
         <link href="/nprompter.css" rel="stylesheet"/>
+        {% for css_file in custom_css %}<link href="/{{ css_file }}" rel="stylesheet"/>
+        {% endfor %}
         <script>
             MathJax = {
               tex: {
