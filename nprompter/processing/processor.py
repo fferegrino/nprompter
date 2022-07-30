@@ -104,6 +104,8 @@ class HtmlNotionProcessor:
                 expression = block["equation"]["expression"]
                 block_contents.append(f"<p>${expression}$</p>")
             else:
+                block_contents.append(f"<p>⚠ {block['type']} ⚠</p>")
+                block_contents.append(f"<!-- Block of type {block['type']} is not currently supported by Nprompter -->")
                 self.logger.warning(f"Block of type {block['type']} is not currently supported by Nprompter")
 
         return block_contents
@@ -113,9 +115,9 @@ class HtmlNotionProcessor:
         paragraph_content_tags = []
         for content in contents:
             if text := content.get("text"):
-                text_content = text["content"]
+                text_content = text["content"].replace("\n", "<br />")
                 annotations = content["annotations"]
-                annotations_tags = ["bold", "italic", "strikethrough", "underline"]
+                annotations_tags = ["bold", "italic", "strikethrough", "underline", "code"]
                 classes = " ".join([block_type] + [tag for tag in annotations_tags if annotations.get(tag)])
                 tag = f'<span class="{classes}">{text_content}</span>'
                 paragraph_content_tags.append(tag)

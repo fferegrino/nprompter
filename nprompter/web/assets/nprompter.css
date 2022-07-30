@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
 
 body {
     background-color: black;
@@ -95,4 +95,13 @@ kbd {
     border: 0px;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* spans */
+
+span.code {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #ffffff22;
+    border-radius: 10px;
+    padding: 0 10px;
 }
