@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %} - Nprompter</title>
+        <link href="/nprompter.css" rel="stylesheet"/>
+        {% for css_file in custom_css %}<link href="/{{ css_file }}" rel="stylesheet"/>
+        {% endfor %}
+        <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              }
+            };
+        </script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </head>
+    <body>
+        <div class="mirror mirrored" id="content">{% block content %}{% endblock %}</div>
+        <!-- Modal with help -->
+        <div class="modal mirror mirrored" id="modal">
+            <div class="modal-bg modal-exit"></div>
+            <div class="modal-container">
+                <h2>Help - v{{ version }}</h2>
+                <ul id="help"></ul>
+            </div>
+        </div>
+        <script src="/script.js"></script>
+    </body>
+</html>
