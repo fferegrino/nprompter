@@ -42,8 +42,18 @@ class NotionClient:
         return database["results"]
 
     def get_blocks(self, page_id: str) -> List[Dict]:
+        blocks = []
         page = requests.get(
             f"https://api.notion.com/v1/blocks/{page_id}/children",
             headers=self.headers,
         ).json()
-        return page["results"]
+        blocks.extend(page["results"])
+
+        while start_cursor := page.get("next_cursor", None):
+            page = requests.get(
+                f"https://api.notion.com/v1/blocks/{page_id}/children",
+                params={"start_cursor": start_cursor},
+                headers=self.headers,
+            ).json()
+            blocks.extend(page["results"])
+        return blocks
