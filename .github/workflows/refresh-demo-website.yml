@@ -1,0 +1,17 @@
+name: Refresh demo website
+
+on:
+  workflow_dispatch:
+  schedule:
+#           “At 00:00 on Sunday.”
+    - cron: '0 0 * * 0'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger Netlify build
+      env:
+        NETLIFY_HOOK: ${{ secrets.NETLIFY_HOOK }}
+      run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/${NETLIFY_HOOK}
