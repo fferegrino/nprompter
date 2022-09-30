@@ -1,28 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
 
 body {
-    background-color: black;
-    color: white;
+    background-color: {{ screen.background }};
+    color: {{ screen.color }};
     scroll-behavior: smooth;
 }
 
 #content {
-    font-size: 50px;
-    padding: 100px 50px;
-    font-family: 'Roboto', sans-serif;
+    font-size: {{ font.size }}px;
+    padding: {{ screen.padding.horizontal }}px {{ screen.padding.vertical }}px;
+    font-family: {{ font.family}};
 }
 
 h1, h2, h3, h4, h5 {
-    margin: 10px 0px;
+    margin: {{ screen.hmargin.vertical }}px {{ screen.hmargin.horizontal }}px;
 }
 
 p {
-    margin: 50px 0px;
+    margin: {{ screen.pmargin.vertical }}px {{ screen.pmargin.horizontal }}px;
 }
 
 a {
     text-decoration: underline;
-    color: white;
+    color: {{ screen.color }};
 }
 
 .mirrored {

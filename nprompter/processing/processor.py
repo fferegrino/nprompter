@@ -1,7 +1,7 @@
 import logging
 import shutil
 from pathlib import Path
-from typing import Union, Dict
+from typing import Dict, Union
 
 import pkg_resources
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -24,18 +24,18 @@ class HtmlNotionProcessor:
         self.logger = logging.getLogger("NotionProcessor")
         self.custom_css = []
 
-    def prepare_folder(self):
+    def prepare_folder(self, configuration: Dict):
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
 
-        js_template =self.env.get_template("script.js")
-        css_template =self.env.get_template("nprompter.css")
+        js_template = self.env.get_template("script.js")
+        css_template = self.env.get_template("nprompter.css")
 
         with open(self.output_folder / "script.js", "w", encoding="utf8") as writeable:
-            writeable.write(js_template.render())
+            writeable.write(js_template.render(**configuration))
 
         with open(self.output_folder / "nprompter.css", "w", encoding="utf8") as writeable:
-            writeable.write(css_template.render())
+            writeable.write(css_template.render(**configuration))
 
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 

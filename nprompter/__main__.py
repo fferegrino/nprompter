@@ -1,3 +1,4 @@
+import importlib
 import os
 import socketserver
 import webbrowser
@@ -5,9 +6,11 @@ from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any, Optional, Union
 
+import tomli
 import typer
 
 import nprompter
+import nprompter.web
 from nprompter.api.notion_client import NotionClient
 from nprompter.processing.processor import HtmlNotionProcessor
 
@@ -31,7 +34,8 @@ def build(
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
     processor = HtmlNotionProcessor(notion_client, output_folder=content_directory)
 
-    processor.prepare_folder()
+    config = tomli.loads(importlib.resources.read_text(nprompter.web, "config.toml"))
+    processor.prepare_folder(config)
 
     if custom_css:
         processor.add_extra_style(custom_css)
