@@ -3,17 +3,17 @@ const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
 const modal = document.getElementById('modal')
 const elem = document.documentElement;
 const manualScrollAmount = 10;
-const fontSizeIncrease = 2;
-const paddingSizeIncrease = 10;
-const maxScrollSpeed = 200;
-const scrollSpeedIncrease = 3;
-const maxPadding = 250;
-const maxFontSize = 200;
+const fontSizeIncrease = {{ font.size_increment }};
+const paddingSizeIncrease = {{ screen.padding.increment }};
+const maxScrollSpeed = {{ screen.scroll.max_speed }};
+const scrollSpeedIncrease = {{ screen.scroll.speed_increment }};
+const maxPadding = {{ screen.padding.max_value }};
+const maxFontSize = {{ font.max_size }};
 let fontSize = parseInt(getComputedStyle(content).fontSize);
 let paddingSize = parseInt(getComputedStyle(content).paddingLeft);
 let scrollTimer = 0;
 let isScrolling = false;
-let scrollSpeed = 10;
+let scrollSpeed = {{ screen.scroll.speed }};
 
 
 document.addEventListener('keydown', logKey);

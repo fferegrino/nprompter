@@ -1,7 +1,7 @@
 import logging
 import shutil
 from pathlib import Path
-from typing import Union
+from typing import Dict, Union
 
 import pkg_resources
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -15,18 +15,28 @@ class HtmlNotionProcessor:
     def __init__(self, notion_client: NotionClient, output_folder: Union[str, Path]):
         self.notion_client = notion_client
         self.output_folder = Path(output_folder)
-        env = Environment(
+        self.env = Environment(
             loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape()
         )
         self.assets_folder = Path(pkg_resources.resource_filename("nprompter", "web/assets/"))
-        self.script_template = env.get_template("script.html")
-        self.index_template = env.get_template("index.html")
+        self.script_template = self.env.get_template("script.html")
+        self.index_template = self.env.get_template("index.html")
         self.logger = logging.getLogger("NotionProcessor")
         self.custom_css = []
 
-    def prepare_folder(self):
+    def prepare_folder(self, configuration: Dict):
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
+
+        js_template = self.env.get_template("script.js")
+        css_template = self.env.get_template("nprompter.css")
+
+        with open(self.output_folder / "script.js", "w", encoding="utf8") as writeable:
+            writeable.write(js_template.render(**configuration))
+
+        with open(self.output_folder / "nprompter.css", "w", encoding="utf8") as writeable:
+            writeable.write(css_template.render(**configuration))
+
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
 
     def add_extra_style(self, path: Path):
