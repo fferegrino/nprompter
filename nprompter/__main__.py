@@ -6,12 +6,12 @@ from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any, Optional, Union
 
-import tomli
 import typer
 
 import nprompter
 import nprompter.web
 from nprompter.api.notion_client import NotionClient
+from nprompter.cli.helpers import get_config
 from nprompter.processing.processor import HtmlNotionProcessor
 
 app = typer.Typer(add_completion=False)
@@ -25,6 +25,7 @@ def build(
     content_directory: Union[str, None] = DEFAULT_PATH,
     property_filter: Optional[str] = "Status",
     property_value: Optional[str] = "Ready",
+    config: Optional[Path] = typer.Option("config.toml"),
     custom_css: Optional[Path] = typer.Option(None),
     just_assets: bool = False,
 ):
@@ -34,8 +35,8 @@ def build(
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
     processor = HtmlNotionProcessor(notion_client, output_folder=content_directory)
 
-    config = tomli.loads(importlib.resources.read_text(nprompter.web, "config.toml"))
-    processor.prepare_folder(config)
+    config_dict = get_config(config)
+    processor.prepare_folder(config_dict)
 
     if custom_css:
         processor.add_extra_style(custom_css)
@@ -59,3 +60,14 @@ def serve(port: int = 8889, content_directory: Union[str, None] = DEFAULT_PATH):
         print(f"Serving at {location}")
         webbrowser.open(location)
         httpd.serve_forever()
+
+
+@app.command()
+def create_config(override: bool = False):
+    config = importlib.resources.read_text(nprompter.web, "config.toml")
+
+    if not os.path.exists("config.toml") or override:
+        with open("config.toml", "w") as writable:
+            writable.write(config)
+    else:
+        print("The file config.toml already exists, call this program with the --override flag to override")
