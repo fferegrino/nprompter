@@ -1,6 +1,7 @@
 .env
-.gitignore
 .idea/
 .content/
 dist/
 *.pyc
+
+prompter/
