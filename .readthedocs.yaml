@@ -12,10 +12,10 @@ build:
       - asdf install poetry latest
       - asdf global poetry latest
       - poetry config virtualenvs.create false
+      - poetry export --with dev -f requirements.txt --without-hashes --output docs/requirements.txt
     post_install:
       - poetry install
 
 python:
-  install:
-    - method: pip
-      path: .
+   install:
+   - requirements: docs/requirements.txt
