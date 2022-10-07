@@ -10,11 +10,8 @@ Welcome to Nprompter's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   source/create-integration
+   source/usage
 
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
