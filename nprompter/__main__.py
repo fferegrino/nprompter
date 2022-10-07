@@ -70,7 +70,7 @@ def serve(
 
     class CustomHandler(SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):
-            super().__init__(*args, directory=content_directory, **kwargs)
+            super().__init__(*args, directory=str(content_directory), **kwargs)
 
         def log_message(self, format: str, *args: Any) -> None:
             pass
