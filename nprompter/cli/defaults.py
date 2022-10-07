@@ -1,4 +1,4 @@
-DEFAULT_OUTPUT_PATH = ".prompter"
+DEFAULT_OUTPUT_PATH = "prompter"
 DEFAULT_APPEARANCE_CONFIG_PATH = "nprompter.toml"
 DEFAULT_PROPERTY = "Status"
 DEFAULT_VALUE = "Ready"
