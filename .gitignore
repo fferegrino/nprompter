@@ -5,3 +5,4 @@ dist/
 *.pyc
 
 prompter/
+_build/
