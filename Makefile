@@ -9,6 +9,9 @@ lint:
 	$(TOOL_RUN) isort . --check-only
 	$(TOOL_RUN) black . --check
 
+docs:
+	$(TOOL_RUN) sphinx-build -M html docs/ docs/_build
+
 clean:
 	rm -rf .content dist
 

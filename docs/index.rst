@@ -10,6 +10,7 @@ Welcome to Nprompter's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   source/create-database
    source/create-integration
    source/usage
 

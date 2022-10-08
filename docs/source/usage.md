@@ -1,7 +1,11 @@
 Using Nprompter
 ===============
 
-After installing _nprompter_ and [creating an integration](./create-integration.md), the next step is as easy as running the command `build`:
+## `build`
+
+This command is used to generate your teleprompter pages from a Notion database.
+
+After you have [created an integration](./create-integration.md), and  the next step is as easy as running the command `build`:
 
 ```shell
 nprompter build [DATABASE ID] (NOTION_API_KEY)
@@ -11,7 +15,7 @@ This command will generate a bunch of html files in a folder named `prompter`, j
 
  > Note that you can specify the `NOTION_API_KEY` parameter via a environment variable too, and it is arguably a better alternative.
 
-## Customisation
+## Options
 
 The build command takes several *optional* parameters that allow for great customisation:
 
