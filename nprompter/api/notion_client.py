@@ -12,7 +12,7 @@ def build_filter_query(properties: Tuple[str, str, str]) -> Dict:
     """
 
     or_conditions = [
-        {"property": property_name, "select": {condition: value}} for property_name, condition, value in properties
+        {"property": property_name, "status": {condition: value}} for property_name, condition, value in properties
     ]
 
     return {"filter": {"or": or_conditions}}
