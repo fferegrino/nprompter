@@ -1,7 +1,7 @@
 import logging
 import shutil
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 import pkg_resources
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -12,7 +12,9 @@ from nprompter.api.notion_client import NotionClient
 
 
 class HtmlNotionProcessor:
-    def __init__(self, notion_client: NotionClient, output_folder: Union[str, Path]):
+    def __init__(
+        self, notion_client: NotionClient, output_folder: Union[str, Path], configuration: Optional[Dict] = None
+    ):
         self.notion_client = notion_client
         self.output_folder = Path(output_folder)
         self.env = Environment(
@@ -22,6 +24,7 @@ class HtmlNotionProcessor:
         self.script_template = self.env.get_template("script.html")
         self.index_template = self.env.get_template("index.html")
         self.logger = logging.getLogger("NotionProcessor")
+        self.configuration = configuration or {}
         self.custom_css = []
 
     def prepare_folder(self, configuration: Dict):
@@ -113,6 +116,12 @@ class HtmlNotionProcessor:
             elif block_type == "equation":
                 expression = block["equation"]["expression"]
                 block_contents.append(f"<p>${expression}$</p>")
+            elif block_type == "divider":
+                if self.configuration["processor"]["skip_on_break"]:
+                    self.logger.info("Found divider, stopping block processing")
+                    break
+                else:
+                    block_contents.append("<hr />")
             else:
                 block_contents.append(f"<p>⚠ {block['type']} ⚠</p>")
                 block_contents.append(f"<!-- Block of type {block['type']} is not currently supported by Nprompter -->")
