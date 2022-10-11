@@ -1,6 +1,14 @@
 Using Nprompter
 ===============
 
+## Installation
+
+_Nprompter_ is available from PyPI, install it with your favourite package manager:
+
+```shell
+pip install nprompter
+```
+
 ## `build`
 
 This command is used to generate your teleprompter pages from a Notion database.
