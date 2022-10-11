@@ -42,12 +42,14 @@ def build(
     """
     Fetch a Notion database and create the teleprompter's pages from it
     """
+
+    config_dict = get_config(appearance_file)
+
     notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
-    processor = HtmlNotionProcessor(notion_client, output_folder=output)
+    processor = HtmlNotionProcessor(notion_client, output_folder=output, configuration=config_dict)
 
-    config_dict = get_config(appearance_file)
     processor.prepare_folder(config_dict)
 
     if custom_css:

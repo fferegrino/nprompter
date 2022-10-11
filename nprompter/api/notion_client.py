@@ -39,6 +39,10 @@ class NotionClient:
             json=query,
             headers=self.headers,
         ).json()
+
+        if database.get("object") == "error":
+            raise ValueError(f"{database['code']} - {database['message']}")
+
         return database["results"]
 
     def get_blocks(self, page_id: str) -> List[Dict]:
