@@ -18,6 +18,6 @@ pmargin.horizontal = 50
 pmargin.vertical = 50
 scroll.speed = 10
 scroll.speed_increment = 3
-scroll.max_speed = 3
+scroll.max_speed = 50
 color = "white"
 background = "black"
