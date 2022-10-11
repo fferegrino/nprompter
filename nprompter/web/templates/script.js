@@ -86,7 +86,6 @@ function handleKeyCode(keyCode) {
     if (keyCode in controls) {
         const [action, docs, key] = controls[keyCode]
         action()
-        console.log(docs)
     } else {
         handled = false;
         console.log("Not handled " + keyCode)
@@ -98,7 +97,6 @@ function handleKeyCode(keyCode) {
 function pageScroll() {
     window.scrollBy(0, 1); // horizontal and vertical scroll increments
     scrollTimer = setTimeout(pageScroll, scrollSpeed);
-    console.log('scroll')
 }
 
 
