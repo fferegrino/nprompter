@@ -55,3 +55,7 @@ Then change the value of _Sort by_ from _Group_ to _Option_.
  > 😬 As of the writing of this documentation there is no way to rearrange the columns. So if yours are out of order, do not worry. Hopefully Notion will do something for us soon.
 
 And that is it! you have created your first page fully compatible with _Nprompter_. The next thing you need to do is [create an integration](./create-integration.md).
+
+## Live demo
+
+This is a [demo database](https://nprompter.notion.site/c68ccc052d1b4eaaa3091e637f7011c0?v=5435599e709e48d8b23c4471ae8102a5) made following the steps outlined here. Just remember, you do not need to make your pages public to use _Nprompter_.
