@@ -16,7 +16,7 @@ author = "Antonio Feregrino"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["myst_parser"]
+extensions = ["sphinxext.opengraph", "myst_parser"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -29,3 +29,7 @@ html_theme = "classic"
 html_static_path = ["_static"]
 
 sys.path.insert(0, os.path.abspath("../nprompter"))
+
+# Open Graph Stuff
+ogp_site_url = "https://nprompter.readthedocs.io/en/latest/"
+ogp_image = "https://ik.imagekit.io/thatcsharpguy/posts/nprompter/nprompter.png"

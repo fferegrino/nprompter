@@ -1,3 +1,5 @@
+:og:description: Nprompter is a browser-based teleprompter powered by a Notion's backend to edit and store scripts.
+
 Welcome to Nprompter's documentation!
 =====================================
 
