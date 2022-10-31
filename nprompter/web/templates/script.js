@@ -47,38 +47,38 @@ const controls = {
     27: [function() {
         window.scrollTo(0, 0)
     }, "Scroll to top", 'escape'],
+    32: [toggleScrolling, "Start scroll", 'space'],
     37: [function() {
         scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
     }, "Decrease speed", '→'],
     39: [function() {
         scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
     }, "Increase speed", '←'],
-    80: [function() {
-        paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
-        content.style.paddingLeft = paddingSize + "px"
-        content.style.paddingRight = paddingSize + "px"
-    }, "Increase padding", 'p'],
-    79: [function() {
-        paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
-        content.style.paddingLeft = paddingSize + "px"
-        content.style.paddingRight = paddingSize + "px"
-    }, "Decrease padding", 'o'],
-    85: [function() {
-        fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
-        content.style.fontSize = fontSize + "px"
-    }, "Increase font size", 'u'],
     68: [function() {
         fontSize = Math.max(0, fontSize - fontSizeIncrease);
         content.style.fontSize = fontSize + "px"
     }, "Decrease font size", 'D'],
-    32: [toggleScrolling, "Start scroll", 'space'],
     70: [openFullscreen, "Fullscreen", 'f'],
     72: [toggleModalWindow, "Help", 'h'],
     77: [function() {
         mirrorElements.forEach(function (element){
             element.classList.toggle('mirrored')
         })
-    }, "Mirror screen", 'm']
+    }, "Mirror screen", 'm'],
+    79: [function() {
+        paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
+        content.style.paddingLeft = paddingSize + "px"
+        content.style.paddingRight = paddingSize + "px"
+    }, "Decrease padding", 'o'],
+    80: [function() {
+        paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
+        content.style.paddingLeft = paddingSize + "px"
+        content.style.paddingRight = paddingSize + "px"
+    }, "Increase padding", 'p'],
+    85: [function() {
+        fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
+        content.style.fontSize = fontSize + "px"
+    }, "Increase font size", 'u']
 }
 
 function handleKeyCode(keyCode) {
