@@ -81,6 +81,26 @@ function increaseFontSize() {
     content.style.fontSize = fontSize + "px"
 }
 
+function debugInfo() {
+    const properties = new Map([
+        ["Font size", fontSize],
+        ["Padding size", paddingSize],
+        ["Scroll speed", scrollSpeed]
+    ]);
+
+    const black = 'color:black; font-size:25px; font-weight: bold; -webkit-text-stroke: 1px white;'
+    const red = 'color:red; font-size:25px; font-weight: bold; -webkit-text-stroke: 1px black;'
+
+    const propertyList = new Array()
+    const colors = new Array()
+    properties.forEach((value, key, map) => {
+        propertyList.push(`%c${key}: %c${value}`);
+        colors.push(red)
+        colors.push(black)
+    })
+    console.log(propertyList.join(' '), ...colors)
+}
+
 const controls = {
     27: [scrollToTop, "Scroll to top", 'escape'],
     32: [toggleScrolling, "Start scroll", 'space'],
@@ -89,6 +109,7 @@ const controls = {
     68: [decreaseFontSize, "Decrease font size", 'D'],
     70: [openFullscreen, "Fullscreen", 'f'],
     72: [toggleModalWindow, "Help", 'h'],
+    73: [debugInfo, "Show debug info to the console", 'i'],
     77: [mirrorScreen, "Mirror screen", 'm'],
     79: [decreasePadding, "Decrease padding", 'o'],
     80: [increasePadding, "Increase padding", 'p'],
