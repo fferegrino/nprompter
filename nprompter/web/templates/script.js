@@ -25,7 +25,6 @@ function logKey(e) {
     }
 }
 
-/* View in fullscreen */
 function openFullscreen() {
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -38,47 +37,83 @@ function openFullscreen() {
     }
 }
 
-
-function toggleModalWindow () {
+function toggleModalWindow() {
     modal.classList.toggle("open")
 }
 
+function scrollToTop() {
+    window.scrollTo(0, 0)
+}
+
+function decreaseSpeed() {
+    scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
+}
+
+function increaseSpeed() {
+    scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
+}
+
+function decreaseFontSize() {
+    fontSize = Math.max(0, fontSize - fontSizeIncrease);
+    content.style.fontSize = fontSize + "px"
+}
+
+function mirrorScreen() {
+    mirrorElements.forEach(function(element) {
+        element.classList.toggle('mirrored')
+    })
+}
+
+function decreasePadding() {
+    paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
+    content.style.paddingLeft = paddingSize + "px"
+    content.style.paddingRight = paddingSize + "px"
+}
+
+function increasePadding() {
+    paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
+    content.style.paddingLeft = paddingSize + "px"
+    content.style.paddingRight = paddingSize + "px"
+}
+
+function increaseFontSize() {
+    fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
+    content.style.fontSize = fontSize + "px"
+}
+
+function debugInfo() {
+    const properties = new Map([
+        ["Font size", fontSize],
+        ["Padding size", paddingSize],
+        ["Scroll speed", scrollSpeed]
+    ]);
+
+    const black = 'color:black; font-size:25px; font-weight: bold; -webkit-text-stroke: 1px white;'
+    const red = 'color:red; font-size:25px; font-weight: bold; -webkit-text-stroke: 1px black;'
+
+    const propertyList = new Array()
+    const colors = new Array()
+    properties.forEach((value, key, map) => {
+        propertyList.push(`%c${key}: %c${value}`);
+        colors.push(red)
+        colors.push(black)
+    })
+    console.log(propertyList.join(' '), ...colors)
+}
+
 const controls = {
-    27: [function() {
-        window.scrollTo(0, 0)
-    }, "Scroll to top", 'escape'],
-    37: [function() {
-        scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
-    }, "Decrease speed", '→'],
-    39: [function() {
-        scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
-    }, "Increase speed", '←'],
-    80: [function() {
-        paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
-        content.style.paddingLeft = paddingSize + "px"
-        content.style.paddingRight = paddingSize + "px"
-    }, "Increase padding", 'p'],
-    79: [function() {
-        paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
-        content.style.paddingLeft = paddingSize + "px"
-        content.style.paddingRight = paddingSize + "px"
-    }, "Decrease padding", 'o'],
-    85: [function() {
-        fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
-        content.style.fontSize = fontSize + "px"
-    }, "Increase font size", 'u'],
-    68: [function() {
-        fontSize = Math.max(0, fontSize - fontSizeIncrease);
-        content.style.fontSize = fontSize + "px"
-    }, "Decrease font size", 'D'],
+    27: [scrollToTop, "Scroll to top", 'escape'],
     32: [toggleScrolling, "Start scroll", 'space'],
+    37: [decreaseSpeed, "Decrease speed", '→'],
+    39: [increaseSpeed, "Increase speed", '←'],
+    68: [decreaseFontSize, "Decrease font size", 'D'],
     70: [openFullscreen, "Fullscreen", 'f'],
     72: [toggleModalWindow, "Help", 'h'],
-    77: [function() {
-        mirrorElements.forEach(function (element){
-            element.classList.toggle('mirrored')
-        })
-    }, "Mirror screen", 'm']
+    73: [debugInfo, "Show debug info to the console", 'i'],
+    77: [mirrorScreen, "Mirror screen", 'm'],
+    79: [decreasePadding, "Decrease padding", 'o'],
+    80: [increasePadding, "Increase padding", 'p'],
+    85: [increaseFontSize, "Increase font size", 'u']
 }
 
 function handleKeyCode(keyCode) {
@@ -88,17 +123,14 @@ function handleKeyCode(keyCode) {
         action()
     } else {
         handled = false;
-        console.log("Not handled " + keyCode)
     }
     return handled;
-
 }
 
 function pageScroll() {
     window.scrollBy(0, 1); // horizontal and vertical scroll increments
     scrollTimer = setTimeout(pageScroll, scrollSpeed);
 }
-
 
 function toggleScrolling() {
     if (isScrolling === false) {
@@ -118,4 +150,3 @@ for (var [keyCode, [fn, docs, key]] of Object.entries(controls)) {
 }
 const help = document.getElementById('help')
 help.innerHTML = commands.join(' ')
-
