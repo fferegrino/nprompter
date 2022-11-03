@@ -130,6 +130,8 @@ class HtmlNotionProcessor:
         return block_contents
 
     def process_paragraph(self, block, block_type, tag_name):
+        notion_color = block[block_type].get("color", "default")
+        base_classes = [block_type, f"notion-{notion_color}"]
         contents = block[block_type].get("text", block[block_type].get("rich_text", []))
         paragraph_content_tags = []
         for content in contents:
@@ -137,7 +139,7 @@ class HtmlNotionProcessor:
                 text_content = text["content"].replace("\n", "<br />")
                 annotations = content["annotations"]
                 annotations_tags = ["bold", "italic", "strikethrough", "underline", "code"]
-                classes = " ".join([block_type] + [tag for tag in annotations_tags if annotations.get(tag)])
+                classes = " ".join(base_classes + [tag for tag in annotations_tags if annotations.get(tag)])
                 tag = f'<span class="{classes}">{text_content}</span>'
                 paragraph_content_tags.append(tag)
             elif equation := content.get("equation"):
