@@ -16,10 +16,10 @@ clean:
 	rm -rf .content dist
 
 patch:
-	$(TOOL_RUN) bumpversion patch
+	./release.sh patch
 
 minor:
-	$(TOOL_RUN) bumpversion minor
+	./release.sh minor
 
 major:
-	$(TOOL_RUN) bumpversion major
+	./release.sh major
