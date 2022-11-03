@@ -105,3 +105,85 @@ span.code {
     border-radius: 10px;
     padding: 0 10px;
 }
+
+/* Notion coloured blocks */
+
+.notion-black {
+	color: rgb(0, 0, 0);
+}
+
+.notion-black_background {
+	background-color: rgb(0, 0, 0, 0.7);
+}
+
+.notion-gray {
+	color: rgb(128, 128, 128);
+}
+
+.notion-gray_background {
+	background-color: rgb(128, 128, 128, 0.7);
+}
+
+.notion-brown {
+	color: rgb(165, 42, 42);
+}
+
+.notion-brown_background {
+	background-color: rgb(165, 42, 42, 0.7);
+}
+
+.notion-orange {
+	color: rgb(255, 165, 0);
+}
+
+.notion-orange_background {
+	background-color: rgb(255, 165, 0, 0.7);
+}
+
+.notion-yellow {
+	color: rgb(255, 255, 0);
+}
+
+.notion-yellow_background {
+	background-color: rgb(255, 255, 0, 0.7);
+}
+
+.notion-green {
+	color: rgb(0, 128, 0);
+}
+
+.notion-green_background {
+	background-color: rgb(0, 128, 0, 0.7);
+}
+
+.notion-blue {
+	color: rgb(0, 0, 255);
+}
+
+.notion-blue_background {
+	background-color: rgb(0, 0, 255, 0.7);
+}
+
+.notion-purple {
+	color: rgb(128, 0, 128);
+}
+
+.notion-purple_background {
+	background-color: rgb(128, 0, 128, 0.7);
+}
+
+.notion-pink {
+	color: rgb(255, 192, 203);
+}
+
+.notion-pink_background {
+	background-color: rgb(255, 192, 203, 0.7);
+}
+
+.notion-red {
+	color: rgb(255, 0, 0);
+}
+
+.notion-red_background {
+	background-color: rgb(255, 0, 0, 0.7);
+}
