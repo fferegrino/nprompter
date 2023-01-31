@@ -132,6 +132,8 @@ class HtmlNotionProcessor:
     def process_paragraph(self, block, block_type, tag_name):
         notion_color = block[block_type].get("color", "default")
         base_classes = [block_type, f"notion-{notion_color}"]
+        if notion_color != "default" and self.configuration["processor"]["hide_colors"]:
+            base_classes.append("notion-hide")
         contents = block[block_type].get("text", block[block_type].get("rich_text", []))
         paragraph_content_tags = []
         for content in contents:
