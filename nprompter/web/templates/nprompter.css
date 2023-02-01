@@ -187,3 +187,8 @@ span.code {
 .notion-red_background {
 	background-color: rgb(255, 0, 0, 0.7);
 }
+
+.notion-hide {
+    display: none;
+    visibility: hidden;
+}
