@@ -1,3 +1,13 @@
+## v3.4.0 (2023-02-01)
+
+### Feat
+
+- Add hidden class
+
+### Fix
+
+- Change default configuration folder name
+
 ## v3.3.0 (2022-11-03)
 
 ### Feat
