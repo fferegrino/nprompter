@@ -88,10 +88,13 @@ def serve(
 
 @app.command()
 def create_config(override: bool = False):
-    config = importlib.resources.read_text(nprompter.web, "config.toml")
+    config = importlib.resources.read_text(nprompter.web, nprompter.cli.defaults.DEFAULT_CONFIG_PATH)
 
-    if not os.path.exists("config.toml") or override:
-        with open("config.toml", "w") as writable:
+    if not os.path.exists(nprompter.cli.defaults.DEFAULT_CONFIG_PATH) or override:
+        with open(nprompter.cli.defaults.DEFAULT_CONFIG_PATH, "w") as writable:
             writable.write(config)
     else:
-        print("The file config.toml already exists, call this program with the --override flag to override")
+        print(
+            f"The file {nprompter.cli.defaults.DEFAULT_CONFIG_PATH} "
+            "already exists, call this program with the --override flag to override"
+        )
