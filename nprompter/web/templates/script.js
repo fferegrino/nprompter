@@ -9,6 +9,9 @@ const maxScrollSpeed = {{ screen.scroll.max_speed }};
 const scrollSpeedIncrease = {{ screen.scroll.speed_increment }};
 const maxPadding = {{ screen.padding.max_value }};
 const maxFontSize = {{ font.max_size }};
+const minLineHeight = 0.1;
+const lineHeightIncrement = {{ font.line_height_increment }};
+let lineHeight = {{ font.line_height }};
 let fontSize = parseInt(getComputedStyle(content).fontSize);
 let paddingSize = parseInt(getComputedStyle(content).paddingLeft);
 let scrollTimer = 0;
@@ -56,6 +59,16 @@ function increaseSpeed() {
 function decreaseFontSize() {
     fontSize = Math.max(0, fontSize - fontSizeIncrease);
     content.style.fontSize = fontSize + "px"
+}
+
+function increaseLineHeight() {
+    lineHeight = lineHeight + lineHeightIncrement;
+    content.style.lineHeight = lineHeight + "em"
+}
+
+function decreaseLineHeight() {
+    lineHeight =  Math.max(minLineHeight, lineHeight - lineHeightIncrement);
+    content.style.lineHeight = lineHeight + "em"
 }
 
 function mirrorScreen() {
@@ -113,6 +126,8 @@ const controls = {
     77: [mirrorScreen, "Mirror screen", 'm'],
     79: [decreasePadding, "Decrease padding", 'o'],
     80: [increasePadding, "Increase padding", 'p'],
+    81: [decreaseLineHeight, "Decrease padding", 'q'],
+    87: [increaseLineHeight, "Increase padding", 'w'],
     85: [increaseFontSize, "Increase font size", 'u']
 }
 
