@@ -1,3 +1,9 @@
+## v3.5.0 (2023-02-11)
+
+### Feat
+
+- Make line-height configurable
+
 ## v3.4.0 (2023-02-01)
 
 ### Feat
