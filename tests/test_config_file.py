@@ -26,3 +26,18 @@ size = 1000
     config = get_config(str(config_file))
 
     assert config["font"]["size"] == 1000
+
+
+def test_applies_defaults(in_temporary_dir):
+    config_file = in_temporary_dir / "local.toml"
+    with open(config_file, "w") as writable:
+        writable.write(
+            """[font]
+size = 1000
+        """
+        )
+
+    config = get_config(str(config_file))
+
+    assert config["font"]["line_height_increment"] == 0.1
+    assert config["font"]["size"] == 1000
