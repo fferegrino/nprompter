@@ -1,3 +1,9 @@
+## v3.5.1 (2023-02-18)
+
+### Fix
+
+- Changed implementation of dict update for the config file
+
 ## v3.5.0 (2023-02-11)
 
 ### Feat
