@@ -193,3 +193,38 @@ span.code {
     display: none;
     visibility: hidden;
 }
+
+/* The snackbar - position it at the middle of the screen */
+ #snackbar {
+     visibility: hidden;
+    /* Hidden by default. Visible on click */
+     font-size: xxx-large;
+     font-family: 'Roboto', sans-serif;
+     width: 400px;
+    /* Set a default minimum width */
+     margin-left: -200px;
+    /* Divide value of min-width by 2 */
+     background-color: rgba(10,10,10,0.9);
+    /* Black background color */
+     color: #fff;
+    /* White text color */
+     text-align: center;
+    /* Centered text */
+     border-radius: 2px;
+    /* Rounded borders */
+     padding: 20px;
+    /* Padding */
+     position: fixed;
+    /* Sit on top of the screen */
+     z-index: 1;
+    /* Add a z-index if needed */
+     left: 50%;
+    /* Center the snackbar */
+     bottom: 50%;
+    /* 30px from the bottom */
+}
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+ #snackbar.show {
+     visibility: visible;
+    /* Show the snackbar */
+}

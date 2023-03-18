@@ -2,6 +2,7 @@ const content = document.getElementById('content')
 const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
 const modal = document.getElementById('modal')
 const elem = document.documentElement;
+const snackbar = document.getElementById("snackbar");
 const manualScrollAmount = 10;
 const fontSizeIncrease = {{ font.size_increment }};
 const paddingSizeIncrease = {{ screen.padding.increment }};
@@ -11,10 +12,12 @@ const maxPadding = {{ screen.padding.max_value }};
 const maxFontSize = {{ font.max_size }};
 const minLineHeight = 0.1;
 const lineHeightIncrement = {{ font.line_height_increment }};
+const snackbarTimeout = 500;
 let lineHeight = {{ font.line_height }};
 let fontSize = parseInt(getComputedStyle(content).fontSize);
 let paddingSize = parseInt(getComputedStyle(content).paddingLeft);
 let scrollTimer = 0;
+let snackbarTimer = -1;
 let isScrolling = false;
 let scrollSpeed = {{ screen.scroll.speed }};
 
@@ -46,29 +49,35 @@ function toggleModalWindow() {
 
 function scrollToTop() {
     window.scrollTo(0, 0)
+    return "Scrolled to top"
 }
 
 function decreaseSpeed() {
     scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
+    return `Scroll speed: ${scrollSpeed}`
 }
 
 function increaseSpeed() {
     scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
+    return `Scroll speed: ${scrollSpeed}`
 }
 
 function decreaseFontSize() {
     fontSize = Math.max(0, fontSize - fontSizeIncrease);
     content.style.fontSize = fontSize + "px"
+    return `Font size: ${fontSize}`
 }
 
 function increaseLineHeight() {
     lineHeight = lineHeight + lineHeightIncrement;
     content.style.lineHeight = lineHeight + "em"
+    return `Line height: ${lineHeight}`
 }
 
 function decreaseLineHeight() {
     lineHeight =  Math.max(minLineHeight, lineHeight - lineHeightIncrement);
     content.style.lineHeight = lineHeight + "em"
+    return `Line height: ${lineHeight}`
 }
 
 function mirrorScreen() {
@@ -81,17 +90,20 @@ function decreasePadding() {
     paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
     content.style.paddingLeft = paddingSize + "px"
     content.style.paddingRight = paddingSize + "px"
+    return `Padding size: ${paddingSize}`
 }
 
 function increasePadding() {
     paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
     content.style.paddingLeft = paddingSize + "px"
     content.style.paddingRight = paddingSize + "px"
+    return `Padding size: ${paddingSize}`
 }
 
 function increaseFontSize() {
     fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
     content.style.fontSize = fontSize + "px"
+    return `Font size: ${fontSize}`
 }
 
 function debugInfo() {
@@ -135,7 +147,10 @@ function handleKeyCode(keyCode) {
     let handled = true;
     if (keyCode in controls) {
         const [action, docs, key] = controls[keyCode]
-        action()
+        const result = action()
+        if(result) {
+            showInfo(result)
+        }
     } else {
         handled = false;
     }
@@ -151,17 +166,36 @@ function toggleScrolling() {
     if (isScrolling === false) {
         pageScroll()
         isScrolling = true;
+        return "Scrolling started"
     } else {
         clearTimeout(scrollTimer);
         isScrolling = false;
+        return "Scrolling stopped"
     }
 }
 
 
 const commands = [];
 
-for (var [keyCode, [fn, docs, key]] of Object.entries(controls)) {
+for (const [keyCode, [fn, docs, key]] of Object.entries(controls)) {
     commands.push(`<li class="command"><kbd>${key}</kbd>: ${docs}</li>`)
 }
 const help = document.getElementById('help')
 help.innerHTML = commands.join(' ')
+
+function showInfo(message) {
+    snackbar.innerHTML = message;
+   if (snackbar.className !== "show") {
+       snackbar.className = "show";
+       // After 3 seconds, remove the show class from DIV
+       snackbarTimer = setTimeout(function () {
+           snackbar.className = snackbar.className.replace("show", "");
+       }, snackbarTimeout);
+   }
+   else {
+         clearTimeout(snackbarTimer);
+         snackbarTimer = setTimeout(function () {
+              snackbar.className = snackbar.className.replace("show", "");
+         }, snackbarTimeout);
+   }
+}
