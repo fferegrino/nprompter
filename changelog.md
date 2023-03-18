@@ -1,3 +1,9 @@
+## v3.6.0 (2023-03-18)
+
+### Feat
+
+- Add modal showing modified settings
+
 ## v3.5.1 (2023-02-18)
 
 ### Fix
