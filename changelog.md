@@ -1,3 +1,13 @@
+## v3.7.0 (2023-04-08)
+
+### Feat
+
+- Add code rendering capabilities
+
+### Fix
+
+- Consider line-height
+
 ## v3.6.0 (2023-03-18)
 
 ### Feat
