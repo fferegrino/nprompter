@@ -18,7 +18,20 @@ h1, h2, h3, h4, h5 {
 
 p {
     margin: {{ screen.pmargin.vertical }}px {{ screen.pmargin.horizontal }}px;
-    line-height: inherit;
+    line-height: {{ font.line_height }};
+}
+
+ul {
+    margin: {{ screen.pmargin.vertical }}px {{ screen.pmargin.horizontal }}px;
+    line-height: {{ font.line_height }};
+}
+
+li:not(:first-child) {
+    padding-top: {{ font.line_height }};
+}
+
+.bold {
+    font-weight: bold;
 }
 
 a {
