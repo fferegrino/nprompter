@@ -3,7 +3,7 @@ const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
 const modal = document.getElementById('modal')
 const elem = document.documentElement;
 const snackbar = document.getElementById("snackbar");
-const manualScrollAmount = 10;
+const manualScrollAmount = 40;
 const fontSizeIncrease = {{ font.size_increment }};
 const paddingSizeIncrease = {{ screen.padding.increment }};
 const maxScrollSpeed = {{ screen.scroll.max_speed }};
@@ -143,6 +143,15 @@ const controls = {
     85: [increaseFontSize, "Increase font size", 'u']
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('presenterMode')) {
+    controls[116] = [toggleScrolling, "Scroll", 'F5']
+    controls[34] = [increaseSpeed, "Scroll", 'F5']
+    controls[33] = [decreaseSpeed, "Scroll", 'F5']
+    controls[27] = [scrollUpManually, "Scroll", 'F5']
+    controls[66] = [scrollDownManually, "Scroll", 'F5']
+}
+
 function handleKeyCode(keyCode) {
     let handled = true;
     if (keyCode in controls) {
@@ -155,6 +164,14 @@ function handleKeyCode(keyCode) {
         handled = false;
     }
     return handled;
+}
+
+function scrollUpManually() {
+    window.scrollBy(0, -1 * manualScrollAmount);
+}
+
+function scrollDownManually() {
+    window.scrollBy(0, manualScrollAmount);
 }
 
 function pageScroll() {
