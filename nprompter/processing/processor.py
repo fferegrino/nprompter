@@ -122,6 +122,17 @@ class HtmlNotionProcessor:
                     break
                 else:
                     block_contents.append("<hr />")
+            elif block_type == "code":
+                if self.configuration["processor"]["render_code"] == "skip":
+                    self.logger.info("Found code block, don't render")
+                elif self.configuration["processor"]["render_code"] == "placeholder":
+                    block_contents.append("<p>⚠ Code block ⚠</p>")
+                elif self.configuration["processor"]["render_code"] == "render":
+                    block_contents.append("<pre>")
+                    block_contents.append(block["code"]["rich_text"][0]["plain_text"])
+                    block_contents.append("</pre>")
+                else:
+                    self.logger.warning("Invalid configuration for render_code")
             else:
                 block_contents.append(f"<p>⚠ {block['type']} ⚠</p>")
                 block_contents.append(f"<!-- Block of type {block['type']} is not currently supported by Nprompter -->")
