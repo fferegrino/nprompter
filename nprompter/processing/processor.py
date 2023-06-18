@@ -31,10 +31,10 @@ class HtmlNotionProcessor:
         if not self.output_folder.exists():
             self.output_folder.mkdir(parents=True)
 
-        js_template = self.env.get_template("script.js")
+        js_template = self.env.get_template("settings.js")
         css_template = self.env.get_template("nprompter.css")
 
-        with open(self.output_folder / "script.js", "w", encoding="utf8") as writeable:
+        with open(self.output_folder / "settings.js", "w", encoding="utf8") as writeable:
             writeable.write(js_template.render(**configuration))
 
         with open(self.output_folder / "nprompter.css", "w", encoding="utf8") as writeable:
