@@ -127,29 +127,27 @@ function debugInfo() {
 }
 
 const controls = {
-    27: [scrollToTop, "Scroll to top", 'escape'],
-    32: [toggleScrolling, "Start scroll", 'space'],
-    37: [decreaseSpeed, "Decrease speed", '→'],
-    39: [increaseSpeed, "Increase speed", '←'],
-    68: [decreaseFontSize, "Decrease font size", 'D'],
-    70: [openFullscreen, "Fullscreen", 'f'],
-    72: [toggleModalWindow, "Help", 'h'],
-    73: [debugInfo, "Show debug info to the console", 'i'],
-    77: [mirrorScreen, "Mirror screen", 'm'],
-    79: [decreasePadding, "Decrease padding", 'o'],
-    80: [increasePadding, "Increase padding", 'p'],
-    81: [decreaseLineHeight, "Decrease padding", 'q'],
-    87: [increaseLineHeight, "Increase padding", 'w'],
-    85: [increaseFontSize, "Increase font size", 'u']
-}
-
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('presenterMode')) {
-    controls[116] = [toggleScrolling, "Scroll", 'F5']
-    controls[34] = [increaseSpeed, "Scroll", 'F5']
-    controls[33] = [decreaseSpeed, "Scroll", 'F5']
-    controls[27] = [scrollUpManually, "Scroll", 'F5']
-    controls[66] = [scrollDownManually, "Scroll", 'F5']
+    // Normal controls
+    27: [scrollUpManually, "Manual scroll up", "ESC"], // Esc key
+    32: [toggleScrolling, "Start scroll", 'space'], // Space key
+    37: [decreaseSpeed, "Decrease speed", '→'], // Right arrow
+    39: [increaseSpeed, "Increase speed", '←'], // Left arrow
+    68: [decreaseFontSize, "Decrease font size", 'D'], // D key
+    70: [openFullscreen, "Fullscreen", 'f'], // F key
+    72: [toggleModalWindow, "Help", 'h'], // H key
+    73: [debugInfo, "Show debug info to the console", 'i'], // I key
+    77: [mirrorScreen, "Mirror screen", 'm'], // M key
+    79: [decreasePadding, "Decrease padding", 'o'], // O key
+    80: [increasePadding, "Increase padding", 'p'], // P key
+    81: [decreaseLineHeight, "Decrease padding", 'q'], // Q key
+    87: [increaseLineHeight, "Increase padding", 'w'], // W key
+    88: [scrollToTop, "Scroll to top", 'x'], // X key
+    85: [increaseFontSize, "Increase font size", 'u'], // U key
+    // Presenter mode controls
+    116: [toggleScrolling, "Toggle scrolling", 'F5'], // F5 key
+    34: [increaseSpeed, "Increase speed", 'PageDown'], // PageDown key
+    33: [decreaseSpeed, "Decrease speed", 'PageUp'], // PageUp key
+    66: [scrollDownManually, "Scroll down manually", 'B'] // B key
 }
 
 function handleKeyCode(keyCode) {
