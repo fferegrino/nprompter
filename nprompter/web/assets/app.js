@@ -3,26 +3,16 @@ const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
 const modal = document.getElementById('modal')
 const elem = document.documentElement;
 const snackbar = document.getElementById("snackbar");
-const manualScrollAmount = 40;
-const fontSizeIncrease = {{ font.size_increment }};
-const paddingSizeIncrease = {{ screen.padding.increment }};
-const maxScrollSpeed = {{ screen.scroll.max_speed }};
-const scrollSpeedIncrease = {{ screen.scroll.speed_increment }};
-const maxPadding = {{ screen.padding.max_value }};
-const maxFontSize = {{ font.max_size }};
-const minLineHeight = 0.1;
-const lineHeightIncrement = {{ font.line_height_increment }};
-const snackbarTimeout = 500;
-let lineHeight = {{ font.line_height }};
-let fontSize = parseInt(getComputedStyle(content).fontSize);
-let paddingSize = parseInt(getComputedStyle(content).paddingLeft);
+let isScrolling = false
 let scrollTimer = 0;
 let snackbarTimer = -1;
-let isScrolling = false;
-let scrollSpeed = {{ screen.scroll.speed }};
-
 
 document.addEventListener('keydown', logKey);
+setFontSize(getSetting("fontSize"))
+setPadding(getSetting("paddingSize"))
+setLineHeight(getSetting("lineHeight"))
+
+
 
 function logKey(e) {
     const keyCode = e.keyCode;
@@ -53,31 +43,34 @@ function scrollToTop() {
 }
 
 function decreaseSpeed() {
-    scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
+    const scrollSpeed = Math.min(maxScrollSpeed, getSetting("scrollSpeed") + scrollSpeedIncrease);
+    saveSetting("scrollSpeed", scrollSpeed)
     return `Scroll speed: ${scrollSpeed}`
 }
 
 function increaseSpeed() {
-    scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
+    const scrollSpeed = Math.max(0, getSetting("scrollSpeed") - scrollSpeedIncrease)
+    saveSetting("scrollSpeed", scrollSpeed)
     return `Scroll speed: ${scrollSpeed}`
 }
 
-function decreaseFontSize() {
-    fontSize = Math.max(0, fontSize - fontSizeIncrease);
-    content.style.fontSize = fontSize + "px"
-    return `Font size: ${fontSize}`
+function setLineHeight(lineHeight) {
+    content.style.lineHeight = lineHeight + "em"
 }
 
 function increaseLineHeight() {
-    lineHeight = lineHeight + lineHeightIncrement;
-    content.style.lineHeight = lineHeight + "em"
-    return `Line height: ${lineHeight}`
+    const newLineHeight = getSetting("lineHeight") + lineHeightIncrement
+    setLineHeight(newLineHeight)
+    saveSetting("lineHeight", newLineHeight)
+    return `Line height: ${newLineHeight}`
 }
 
 function decreaseLineHeight() {
-    lineHeight =  Math.max(minLineHeight, lineHeight - lineHeightIncrement);
-    content.style.lineHeight = lineHeight + "em"
-    return `Line height: ${lineHeight}`
+    const currentLineHeight = getSetting("lineHeight")
+    const newLineHeight =  Math.max(minLineHeight, currentLineHeight - lineHeightIncrement);
+    setLineHeight(newLineHeight)
+    saveSetting("lineHeight", newLineHeight)
+    return `Line height: ${newLineHeight}`
 }
 
 function mirrorScreen() {
@@ -86,24 +79,45 @@ function mirrorScreen() {
     })
 }
 
-function decreasePadding() {
-    paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
+function setPadding(paddingSize) {
     content.style.paddingLeft = paddingSize + "px"
     content.style.paddingRight = paddingSize + "px"
-    return `Padding size: ${paddingSize}`
+}
+
+function decreasePadding() {
+    const currentPadding = getSetting("paddingSize")
+    const newPaddingSize = Math.max(0, currentPadding - paddingSizeIncrease);
+    setPadding(newPaddingSize)
+    saveSetting("paddingSize", newPaddingSize)
+    return `Padding size: ${newPaddingSize}`
 }
 
 function increasePadding() {
-    paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
-    content.style.paddingLeft = paddingSize + "px"
-    content.style.paddingRight = paddingSize + "px"
-    return `Padding size: ${paddingSize}`
+    const currentPadding = getSetting("paddingSize")
+    const newPadding = Math.min(maxPadding, currentPadding + paddingSizeIncrease);
+    setPadding(newPadding)
+    saveSetting("paddingSize", newPadding)
+    return `Padding size: ${newPadding}`
+}
+
+function setFontSize(fontSize) {
+    content.style.fontSize = fontSize + "px"
 }
 
 function increaseFontSize() {
-    fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
-    content.style.fontSize = fontSize + "px"
-    return `Font size: ${fontSize}`
+    const currentFontSize = getSetting("fontSize")
+    const newFontSize = Math.min(maxFontSize, currentFontSize + fontSizeIncrease);
+    setFontSize(newFontSize)
+    saveSetting("fontSize", newFontSize)
+    return `Font size: ${newFontSize}`
+}
+
+function decreaseFontSize() {
+    const currentFontSize = getSetting("fontSize")
+    const newFontSize = Math.max(0, currentFontSize - fontSizeIncrease);
+    setFontSize(newFontSize)
+    saveSetting("fontSize", newFontSize)
+    return `Font size: ${newFontSize}`
 }
 
 function debugInfo() {
@@ -127,29 +141,27 @@ function debugInfo() {
 }
 
 const controls = {
-    27: [scrollToTop, "Scroll to top", 'escape'],
-    32: [toggleScrolling, "Start scroll", 'space'],
-    37: [decreaseSpeed, "Decrease speed", '→'],
-    39: [increaseSpeed, "Increase speed", '←'],
-    68: [decreaseFontSize, "Decrease font size", 'D'],
-    70: [openFullscreen, "Fullscreen", 'f'],
-    72: [toggleModalWindow, "Help", 'h'],
-    73: [debugInfo, "Show debug info to the console", 'i'],
-    77: [mirrorScreen, "Mirror screen", 'm'],
-    79: [decreasePadding, "Decrease padding", 'o'],
-    80: [increasePadding, "Increase padding", 'p'],
-    81: [decreaseLineHeight, "Decrease padding", 'q'],
-    87: [increaseLineHeight, "Increase padding", 'w'],
-    85: [increaseFontSize, "Increase font size", 'u']
-}
-
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('presenterMode')) {
-    controls[116] = [toggleScrolling, "Scroll", 'F5']
-    controls[34] = [increaseSpeed, "Scroll", 'F5']
-    controls[33] = [decreaseSpeed, "Scroll", 'F5']
-    controls[27] = [scrollUpManually, "Scroll", 'F5']
-    controls[66] = [scrollDownManually, "Scroll", 'F5']
+    // Normal controls
+    27: [scrollUpManually, "Manual scroll up", "ESC"], // Esc key
+    32: [toggleScrolling, "Start scroll", 'space'], // Space key
+    37: [decreaseSpeed, "Decrease speed", '→'], // Right arrow
+    39: [increaseSpeed, "Increase speed", '←'], // Left arrow
+    68: [decreaseFontSize, "Decrease font size", 'D'], // D key
+    70: [openFullscreen, "Fullscreen", 'f'], // F key
+    72: [toggleModalWindow, "Help", 'h'], // H key
+    73: [debugInfo, "Show debug info to the console", 'i'], // I key
+    77: [mirrorScreen, "Mirror screen", 'm'], // M key
+    79: [decreasePadding, "Decrease padding", 'o'], // O key
+    80: [increasePadding, "Increase padding", 'p'], // P key
+    81: [decreaseLineHeight, "Decrease padding", 'q'], // Q key
+    87: [increaseLineHeight, "Increase padding", 'w'], // W key
+    88: [scrollToTop, "Scroll to top", 'x'], // X key
+    85: [increaseFontSize, "Increase font size", 'u'], // U key
+    // Presenter mode controls
+    116: [toggleScrolling, "Toggle scrolling", 'F5'], // F5 key
+    34: [increaseSpeed, "Increase speed", 'PageDown'], // PageDown key
+    33: [decreaseSpeed, "Decrease speed", 'PageUp'], // PageUp key
+    66: [scrollDownManually, "Scroll down manually", 'B'] // B key
 }
 
 function handleKeyCode(keyCode) {
@@ -176,7 +188,7 @@ function scrollDownManually() {
 
 function pageScroll() {
     window.scrollBy(0, 1); // horizontal and vertical scroll increments
-    scrollTimer = setTimeout(pageScroll, scrollSpeed);
+    scrollTimer = setTimeout(pageScroll, getSetting("scrollSpeed"));
 }
 
 function toggleScrolling() {
