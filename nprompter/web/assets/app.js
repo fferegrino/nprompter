@@ -1,5 +1,18 @@
+const content = document.getElementById('content')
+const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
+const modal = document.getElementById('modal')
+const elem = document.documentElement;
+const snackbar = document.getElementById("snackbar");
+let isScrolling = false
+let scrollTimer = 0;
+let snackbarTimer = -1;
 
 document.addEventListener('keydown', logKey);
+setFontSize(getSetting("fontSize"))
+setPadding(getSetting("paddingSize"))
+setLineHeight(getSetting("lineHeight"))
+
+
 
 function logKey(e) {
     const keyCode = e.keyCode;
@@ -30,31 +43,34 @@ function scrollToTop() {
 }
 
 function decreaseSpeed() {
-    scrollSpeed = Math.min(maxScrollSpeed, scrollSpeed + scrollSpeedIncrease)
+    const scrollSpeed = Math.min(maxScrollSpeed, getSetting("scrollSpeed") + scrollSpeedIncrease);
+    saveSetting("scrollSpeed", scrollSpeed)
     return `Scroll speed: ${scrollSpeed}`
 }
 
 function increaseSpeed() {
-    scrollSpeed = Math.max(0, scrollSpeed - scrollSpeedIncrease)
+    const scrollSpeed = Math.max(0, getSetting("scrollSpeed") - scrollSpeedIncrease)
+    saveSetting("scrollSpeed", scrollSpeed)
     return `Scroll speed: ${scrollSpeed}`
 }
 
-function decreaseFontSize() {
-    fontSize = Math.max(0, fontSize - fontSizeIncrease);
-    content.style.fontSize = fontSize + "px"
-    return `Font size: ${fontSize}`
+function setLineHeight(lineHeight) {
+    content.style.lineHeight = lineHeight + "em"
 }
 
 function increaseLineHeight() {
-    lineHeight = lineHeight + lineHeightIncrement;
-    content.style.lineHeight = lineHeight + "em"
-    return `Line height: ${lineHeight}`
+    const newLineHeight = getSetting("lineHeight") + lineHeightIncrement
+    setLineHeight(newLineHeight)
+    saveSetting("lineHeight", newLineHeight)
+    return `Line height: ${newLineHeight}`
 }
 
 function decreaseLineHeight() {
-    lineHeight =  Math.max(minLineHeight, lineHeight - lineHeightIncrement);
-    content.style.lineHeight = lineHeight + "em"
-    return `Line height: ${lineHeight}`
+    const currentLineHeight = getSetting("lineHeight")
+    const newLineHeight =  Math.max(minLineHeight, currentLineHeight - lineHeightIncrement);
+    setLineHeight(newLineHeight)
+    saveSetting("lineHeight", newLineHeight)
+    return `Line height: ${newLineHeight}`
 }
 
 function mirrorScreen() {
@@ -63,24 +79,45 @@ function mirrorScreen() {
     })
 }
 
-function decreasePadding() {
-    paddingSize = Math.max(0, paddingSize - paddingSizeIncrease);
+function setPadding(paddingSize) {
     content.style.paddingLeft = paddingSize + "px"
     content.style.paddingRight = paddingSize + "px"
-    return `Padding size: ${paddingSize}`
+}
+
+function decreasePadding() {
+    const currentPadding = getSetting("paddingSize")
+    const newPaddingSize = Math.max(0, currentPadding - paddingSizeIncrease);
+    setPadding(newPaddingSize)
+    saveSetting("paddingSize", newPaddingSize)
+    return `Padding size: ${newPaddingSize}`
 }
 
 function increasePadding() {
-    paddingSize = Math.min(maxPadding, paddingSize + paddingSizeIncrease);
-    content.style.paddingLeft = paddingSize + "px"
-    content.style.paddingRight = paddingSize + "px"
-    return `Padding size: ${paddingSize}`
+    const currentPadding = getSetting("paddingSize")
+    const newPadding = Math.min(maxPadding, currentPadding + paddingSizeIncrease);
+    setPadding(newPadding)
+    saveSetting("paddingSize", newPadding)
+    return `Padding size: ${newPadding}`
+}
+
+function setFontSize(fontSize) {
+    content.style.fontSize = fontSize + "px"
 }
 
 function increaseFontSize() {
-    fontSize = Math.min(maxFontSize, fontSize + fontSizeIncrease);
-    content.style.fontSize = fontSize + "px"
-    return `Font size: ${fontSize}`
+    const currentFontSize = getSetting("fontSize")
+    const newFontSize = Math.min(maxFontSize, currentFontSize + fontSizeIncrease);
+    setFontSize(newFontSize)
+    saveSetting("fontSize", newFontSize)
+    return `Font size: ${newFontSize}`
+}
+
+function decreaseFontSize() {
+    const currentFontSize = getSetting("fontSize")
+    const newFontSize = Math.max(0, currentFontSize - fontSizeIncrease);
+    setFontSize(newFontSize)
+    saveSetting("fontSize", newFontSize)
+    return `Font size: ${newFontSize}`
 }
 
 function debugInfo() {
@@ -151,7 +188,7 @@ function scrollDownManually() {
 
 function pageScroll() {
     window.scrollBy(0, 1); // horizontal and vertical scroll increments
-    scrollTimer = setTimeout(pageScroll, scrollSpeed);
+    scrollTimer = setTimeout(pageScroll, getSetting("scrollSpeed"));
 }
 
 function toggleScrolling() {
