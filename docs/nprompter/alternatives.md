@@ -1,7 +1,7 @@
 Alternatives to Nprompter
 ===============
 
-Nprompter is not the only browser-based teleprompter, in fact, I know many of them since I started using them myself before deciding to crear this tool. Among the many alternatives I found these to bee good:
+nprompter is not the only browser-based teleprompter, in fact, I know many of them since I started using them myself before deciding to crear this tool. Among the many alternatives I found these to bee good:
 
  * [CuePrompter.com](https://cueprompter.com/) 
  * [Teleprompter Mirror](https://telepromptermirror.com/)

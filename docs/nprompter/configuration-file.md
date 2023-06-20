@@ -28,4 +28,4 @@ color = "white"
 background = "black"
 ```
 
-You can use the [`create_config`](./usage) command to obtain an editable version of the configuration.
+You can use the [`create_config`](/nprompter/usage) command to obtain an editable version of the configuration.

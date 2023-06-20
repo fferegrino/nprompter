@@ -1,0 +1,15 @@
+site_name: nprompter
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Configuring Notion:
+    - Create a database: configuring-notion/create-database.md
+    - Create an integration: configuring-notion/create-integration.md
+  - About nprompter:
+    - Usage: nprompter/usage.md
+    - Configuration file: nprompter/configuration-file.md
+    - Alternatives: nprompter/alternatives.md
+    - Create a teleprompter: nprompter/create-teleprompter.md
