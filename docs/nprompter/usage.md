@@ -1,4 +1,4 @@
-Using Nprompter
+Using nprompter
 ===============
 
 ## Installation
@@ -13,7 +13,7 @@ pip install nprompter
 
 This command is used to generate your teleprompter pages from a Notion database.
 
-After you have [created an integration](./create-integration.md), and  the next step is as easy as running the command `build`:
+After you have [created an integration](/configuring-notion/create-integration.md), and  the next step is as easy as running the command `build`:
 
 ```shell
 nprompter build [DATABASE ID] (NOTION_API_KEY)
@@ -21,7 +21,7 @@ nprompter build [DATABASE ID] (NOTION_API_KEY)
 
 This command will generate a bunch of html files in a folder named `prompter`, just open the `index.html` file inside that browser to start using your teleprompter.
 
- > Note that you can specify the `NOTION_API_KEY` parameter via a environment variable too, and it is arguably a better alternative.
+ > Note that you can specify the `NOTION_API_KEY` parameter via an environment variable too, and it is arguably a better alternative.
 
 ### Options
 

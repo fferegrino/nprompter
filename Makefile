@@ -10,7 +10,10 @@ lint:
 	$(TOOL_RUN) black . --check
 
 docs:
-	$(TOOL_RUN) sphinx-build -M html docs/ docs/_build
+	$(TOOL_RUN) mkdocs build
+
+docs-serve:
+	$(TOOL_RUN) mkdocs serve
 
 clean:
 	rm -rf .content dist
