@@ -2,6 +2,7 @@ site_name: nprompter
 
 theme:
   name: material
+  logo: images/nprompter-dark.png
 
 nav:
   - Home: index.md
