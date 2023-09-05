@@ -46,19 +46,26 @@ class HtmlNotionProcessor:
         self.custom_css.append(path.name)
         shutil.copy(path, self.output_folder)
 
-    def process_databases(self, database_id: str, property_filter: str, property_value: str):
-        db = self._process_single_database(database_id, property_filter, property_value)
+    def process_databases(self, database_id: str, property_filter: str, property_value: str, sort_property: str = None):
+        db = self._process_single_database(database_id, property_filter, property_value, sort_property)
 
         content = self.index_template.render(databases=[db], version=nprompter.__version__, custom_css=self.custom_css)
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
-    def _process_single_database(self, database_id: str, property_filter: str, property_value: str):
+    def _process_single_database(self, database_id: str, property_filter: str, property_value: str, sort_property: str):
         database = self.notion_client.get_database(database_id)
         pages = self.notion_client.get_pages(database_id, property_filter, property_value)
         # Create database folder
         (self.output_folder / database_id).mkdir(exist_ok=True)
         database_dict = {"title": database["title"][0]["plain_text"], "scripts": []}
+
+        sort_property_definition = database["properties"][sort_property]
+        if sort_property_definition["type"] in ["title", "rich_text"]:
+            pages = sorted(
+                pages, key=lambda x: x["properties"][sort_property][sort_property_definition["type"]][0]["plain_text"]
+            )
+
         for page in pages:
             database_dict["scripts"].append(self.process_page(database_id, page))
         return database_dict

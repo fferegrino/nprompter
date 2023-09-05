@@ -31,6 +31,9 @@ def build(
     property_value: Optional[str] = typer.Option(
         DEFAULT_VALUE, "--value", "-v", help="The value of the Notion's page property to filter by"
     ),
+    sort_property: Optional[str] = typer.Option(
+        "Name", "--sort", "-s", help="The name of the Notion's page property to sort documents by"
+    ),
     appearance_file: Optional[Path] = typer.Option(
         None, "--config", "-c", help="A path to an appearance configuration file"
     ),
@@ -56,7 +59,7 @@ def build(
         processor.add_extra_style(custom_css)
 
     if download_database:
-        processor.process_databases(database_id, property_filter, property_value)
+        processor.process_databases(database_id, property_filter, property_value, sort_property)
 
 
 @app.command()
