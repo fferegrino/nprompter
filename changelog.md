@@ -1,3 +1,10 @@
+## v3.10.0 (2023-09-06)
+
+### Feat
+
+- Add build configuration to config file
+- Add sorting property
+
 ## v3.9.1 (2023-06-20)
 
 ## v3.9.0 (2023-06-18)
