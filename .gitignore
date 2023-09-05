@@ -1,8 +1,10 @@
 .env
 .idea/
 .content/
+.tmp/
 dist/
 *.pyc
+.DS_Store
 
 prompter/
 _build/
