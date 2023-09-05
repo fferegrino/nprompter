@@ -11,7 +11,7 @@ import typer
 import nprompter
 import nprompter.web
 from nprompter.api.notion_client import NotionClient
-from nprompter.cli.defaults import DEFAULT_OUTPUT_PATH, DEFAULT_PORT, DEFAULT_PROPERTY, DEFAULT_VALUE
+from nprompter.cli.defaults import DEFAULT_OUTPUT_PATH, DEFAULT_PORT
 from nprompter.cli.helpers import get_config
 from nprompter.processing.processor import HtmlNotionProcessor
 
@@ -26,13 +26,13 @@ def build(
         DEFAULT_OUTPUT_PATH, "--output", "-o", help="Where the output should be written"
     ),
     property_filter: Optional[str] = typer.Option(
-        DEFAULT_PROPERTY, "--filter", "-f", help="The name of the Notion's page property to filter by"
+        None, "--filter", "-f", help="The name of the Notion's page property to filter by"
     ),
     property_value: Optional[str] = typer.Option(
-        DEFAULT_VALUE, "--value", "-v", help="The value of the Notion's page property to filter by"
+        None, "--value", "-v", help="The value of the Notion's page property to filter by"
     ),
     sort_property: Optional[str] = typer.Option(
-        "Name", "--sort", "-s", help="The name of the Notion's page property to sort documents by"
+        None, "--sort", "-s", help="The name of the Notion's page property to sort documents by"
     ),
     configuration_file: Optional[Path] = typer.Option(
         None, "--config", "-c", help="A path to an appearance configuration file"
@@ -48,6 +48,13 @@ def build(
 
     config_dict = get_config(configuration_file)
 
+    if property_filter:
+        config_dict["build"]["filter"]["property"] = property_filter
+    if property_value:
+        config_dict["build"]["filter"]["value"] = property_value
+    if sort_property:
+        config_dict["build"]["sort"]["property"] = sort_property
+
     notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
     notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
@@ -59,7 +66,7 @@ def build(
         processor.add_extra_style(custom_css)
 
     if download_database:
-        processor.process_databases(database_id, property_filter, property_value, sort_property)
+        processor.process_databases(database_id, config=config_dict)
 
 
 @app.command()

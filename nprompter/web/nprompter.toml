@@ -25,3 +25,8 @@ scroll.speed_increment = 3
 scroll.max_speed = 50
 color = "white"
 background = "black"
+
+[build]
+filter.property = "Status"
+filter.value = "Ready"
+sort.property = "Name"

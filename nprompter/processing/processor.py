@@ -46,24 +46,31 @@ class HtmlNotionProcessor:
         self.custom_css.append(path.name)
         shutil.copy(path, self.output_folder)
 
-    def process_databases(self, database_id: str, property_filter: str, property_value: str, sort_property: str = None):
-        db = self._process_single_database(database_id, property_filter, property_value, sort_property)
+    def process_databases(self, database_id: str, config: Dict):
+        db = self._process_single_database(database_id, config)
 
         content = self.index_template.render(databases=[db], version=nprompter.__version__, custom_css=self.custom_css)
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
-    def _process_single_database(self, database_id: str, property_filter: str, property_value: str, sort_property: str):
+    def _process_single_database(self, database_id: str, config: Dict):
         database = self.notion_client.get_database(database_id)
-        pages = self.notion_client.get_pages(database_id, property_filter, property_value)
+        pages = self.notion_client.get_pages(
+            database_id=database_id,
+            property_filter=config["build"]["filter"]["property"],
+            property_value=config["build"]["filter"]["value"],
+        )
         # Create database folder
         (self.output_folder / database_id).mkdir(exist_ok=True)
         database_dict = {"title": database["title"][0]["plain_text"], "scripts": []}
 
+        sort_property = config["build"]["sort"]["property"]
         sort_property_definition = database["properties"][sort_property]
-        if sort_property_definition["type"] in ["title", "rich_text"]:
+        sort_property_type = sort_property_definition["type"]
+        if sort_property_type in ["title", "rich_text"]:
             pages = sorted(
-                pages, key=lambda x: x["properties"][sort_property][sort_property_definition["type"]][0]["plain_text"]
+                pages,
+                key=lambda x: x["properties"][sort_property][sort_property_type][0]["plain_text"],
             )
 
         for page in pages:
