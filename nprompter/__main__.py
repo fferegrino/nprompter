@@ -34,7 +34,7 @@ def build(
     sort_property: Optional[str] = typer.Option(
         "Name", "--sort", "-s", help="The name of the Notion's page property to sort documents by"
     ),
-    appearance_file: Optional[Path] = typer.Option(
+    configuration_file: Optional[Path] = typer.Option(
         None, "--config", "-c", help="A path to an appearance configuration file"
     ),
     custom_css: Optional[Path] = typer.Option(None, "--extra-css", "-s", help="A path to extra css configuration"),
@@ -46,7 +46,7 @@ def build(
     Fetch a Notion database and create the teleprompter's pages from it
     """
 
-    config_dict = get_config(appearance_file)
+    config_dict = get_config(configuration_file)
 
     notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
