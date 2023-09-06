@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple
 import requests
 
 
-def build_filter_query(properties: Tuple[str, str, str]) -> Dict:
+def build_filter_query(properties: List[Tuple[str, str, str]]) -> Dict:
     """
     Builds a query to filter for pages with the properties specified as triplets
 
