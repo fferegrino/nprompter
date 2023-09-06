@@ -20,7 +20,7 @@ app = typer.Typer(add_completion=False)
 
 @app.command()
 def build(
-    database_id: str = typer.Argument(..., help="The Notion's database to process"),
+    database_id: str = typer.Argument(default=None, help="The Notion's database to process"),
     notion_api_key: str = typer.Argument(None, envvar="NOTION_API_KEY", help="The Notion API key to use"),
     output: Optional[Path] = typer.Option(
         DEFAULT_OUTPUT_PATH, "--output", "-o", help="Where the output should be written"
@@ -48,12 +48,18 @@ def build(
 
     config_dict = get_config(configuration_file)
 
-    if property_filter:
+    if property_filter is not None:
         config_dict["build"]["filter"]["property"] = property_filter
-    if property_value:
+    if property_value is not None:
         config_dict["build"]["filter"]["value"] = property_value
-    if sort_property:
+    if sort_property is not None:
         config_dict["build"]["sort"]["property"] = sort_property
+    if database_id is not None:
+        config_dict["build"]["database_id"] = database_id
+    if output is not None:
+        config_dict["build"]["output"] = str(output)
+    if custom_css is not None:
+        config_dict["build"]["custom_css"] = str(output)
 
     notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
 
@@ -62,11 +68,11 @@ def build(
 
     processor.prepare_folder(config_dict)
 
-    if custom_css:
+    if "custom_css" in config_dict["build"]:
         processor.add_extra_style(custom_css)
 
     if download_database:
-        processor.process_databases(database_id, config=config_dict)
+        processor.process_databases(config_dict["build"]["database_id"], config=config_dict)
 
 
 @app.command()

@@ -27,6 +27,7 @@ color = "white"
 background = "black"
 
 [build]
+output = "prompter"
 filter.property = "Status"
 filter.value = "Ready"
 sort.property = "Name"
