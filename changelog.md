@@ -1,3 +1,9 @@
+## v3.11.0 (2023-09-06)
+
+### Feat
+
+- Add more options to the config file
+
 ## v3.10.0 (2023-09-06)
 
 ### Feat
