@@ -1,3 +1,9 @@
+## v3.12.0 (2023-11-30)
+
+### Feat
+
+- Add possibility to add extra assets
+
 ## v3.11.0 (2023-09-06)
 
 ### Feat
