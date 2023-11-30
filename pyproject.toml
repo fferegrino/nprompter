@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nprompter"
-version = "3.11.0"
+version = "3.12.0"
 description = "A web based teleprompter that uses Notion as a storage backend"
 authors = ["Antonio Feregrino <antonio.feregrino@gmail.com>"]
 license = "MIT"
