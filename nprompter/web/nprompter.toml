@@ -28,6 +28,7 @@ background = "black"
 
 [build]
 output = "prompter"
+web_assets_folder = "web/assets"
 filter.property = "Status"
 filter.value = "Ready"
 sort.property = "Name"
