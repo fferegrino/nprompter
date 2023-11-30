@@ -21,6 +21,11 @@ class HtmlNotionProcessor:
             loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape()
         )
         self.assets_folder = Path(files("nprompter") / "web" / "assets")
+        self.user_assets_folder = (
+            Path(configuration["build"]["web_assets_folder"])
+            if configuration["build"].get("web_assets_folder")
+            else None
+        )
         self.script_template = self.env.get_template("script.html")
         self.index_template = self.env.get_template("index.html")
         self.logger = logging.getLogger("NotionProcessor")
@@ -41,6 +46,8 @@ class HtmlNotionProcessor:
             writeable.write(css_template.render(**configuration))
 
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
+        if self.user_assets_folder and self.user_assets_folder.exists():
+            shutil.copytree(self.user_assets_folder, self.output_folder, dirs_exist_ok=True)
 
     def add_extra_style(self, path: Path):
         self.custom_css.append(path.name)
