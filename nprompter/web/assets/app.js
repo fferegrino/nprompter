@@ -1,5 +1,6 @@
 const content = document.getElementById('content')
 const mirrorElements = Array.from(document.getElementsByClassName('mirror'))
+const nprompterElements = document.querySelectorAll('.nprompter-element');
 const modal = document.getElementById('modal')
 const elem = document.documentElement;
 const snackbar = document.getElementById("snackbar");
@@ -55,14 +56,16 @@ function increaseSpeed() {
 }
 
 function setLineHeight(lineHeight) {
-    content.style.lineHeight = lineHeight + "em"
+    nprompterElements.forEach(function(element) {
+        element.style.lineHeight = lineHeight + "em"
+    })
 }
 
 function increaseLineHeight() {
     const newLineHeight = getSetting("lineHeight") + lineHeightIncrement
     setLineHeight(newLineHeight)
     saveSetting("lineHeight", newLineHeight)
-    return `Line height: ${newLineHeight}`
+    return `Line height: ${newLineHeight.toFixed(2)}`
 }
 
 function decreaseLineHeight() {
@@ -70,7 +73,7 @@ function decreaseLineHeight() {
     const newLineHeight =  Math.max(minLineHeight, currentLineHeight - lineHeightIncrement);
     setLineHeight(newLineHeight)
     saveSetting("lineHeight", newLineHeight)
-    return `Line height: ${newLineHeight}`
+    return `Line height: ${newLineHeight.toFixed(2)}`
 }
 
 function mirrorScreen() {
@@ -153,8 +156,8 @@ const controls = {
     77: [mirrorScreen, "Mirror screen", 'm'], // M key
     79: [decreasePadding, "Decrease padding", 'o'], // O key
     80: [increasePadding, "Increase padding", 'p'], // P key
-    81: [decreaseLineHeight, "Decrease padding", 'q'], // Q key
-    87: [increaseLineHeight, "Increase padding", 'w'], // W key
+    81: [decreaseLineHeight, "Decrease line height", 'q'], // Q key
+    87: [increaseLineHeight, "Increase line height", 'w'], // W key
     88: [scrollToTop, "Scroll to top", 'x'], // X key
     85: [increaseFontSize, "Increase font size", 'u'], // U key
     // Presenter mode controls
