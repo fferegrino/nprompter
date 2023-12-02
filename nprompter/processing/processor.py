@@ -181,5 +181,5 @@ class HtmlNotionProcessor:
                 paragraph_content_tags.append(f'${equation["expression"]}$')
         if paragraph_content_tags:
             paragraph_content = "".join(paragraph_content_tags)
-            return f"<{tag_name}>{paragraph_content}</{tag_name}>"
+            return f'<{tag_name} class="nprompter-element">{paragraph_content}</{tag_name}>'
         return None
