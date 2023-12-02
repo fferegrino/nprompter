@@ -1,3 +1,10 @@
+## v3.13.1 (2023-12-02)
+
+### Feat
+
+- Modify line height with keys
+- Set nprompter class for elements
+
 ## v3.13.0 (2023-11-30)
 
 ## v3.12.0 (2023-11-30)
