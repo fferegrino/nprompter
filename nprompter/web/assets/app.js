@@ -145,26 +145,29 @@ function debugInfo() {
 
 const controls = {
     // Normal controls
-    27: [scrollUpManually, "Manual scroll up", "ESC"], // Esc key
-    32: [toggleScrolling, "Start scroll", 'space'], // Space key
+
+    81: [decreaseFontSize, "Decrease font size", 'Q'],
+    87: [increaseFontSize, "Increase font size", 'W'],
+    65: [decreasePadding, "Decrease padding", 'A'],
+    83: [increasePadding, "Increase padding", 'S'],
+    90: [decreaseLineHeight, "Decrease line height", 'Z'],
+    88: [increaseLineHeight, "Increase line height", 'X'],
+
+    32: [toggleScrolling, "Start scroll", 'Space'], // Space key
     37: [decreaseSpeed, "Decrease speed", '→'], // Right arrow
     39: [increaseSpeed, "Increase speed", '←'], // Left arrow
-    68: [decreaseFontSize, "Decrease font size", 'D'], // D key
-    70: [openFullscreen, "Fullscreen", 'f'], // F key
-    72: [toggleModalWindow, "Help", 'h'], // H key
-    73: [debugInfo, "Show debug info to the console", 'i'], // I key
-    77: [mirrorScreen, "Mirror screen", 'm'], // M key
-    79: [decreasePadding, "Decrease padding", 'o'], // O key
-    80: [increasePadding, "Increase padding", 'p'], // P key
-    81: [decreaseLineHeight, "Decrease line height", 'q'], // Q key
-    87: [increaseLineHeight, "Increase line height", 'w'], // W key
-    88: [scrollToTop, "Scroll to top", 'x'], // X key
-    85: [increaseFontSize, "Increase font size", 'u'], // U key
+    70: [openFullscreen, "Fullscreen", 'F'], // F key
+    72: [toggleModalWindow, "Help", 'H'], // H key
+    73: [debugInfo, "Show debug info to the console", 'I'], // I key
+    77: [mirrorScreen, "Mirror screen", 'M'], // M key
+    49: [scrollToTop, "Scroll to top", '1'], // X key
+
     // Presenter mode controls
-    116: [toggleScrolling, "Toggle scrolling", 'F5'], // F5 key
-    34: [increaseSpeed, "Increase speed", 'PageDown'], // PageDown key
-    33: [decreaseSpeed, "Decrease speed", 'PageUp'], // PageUp key
-    66: [scrollDownManually, "Scroll down manually", 'B'] // B key
+    27: [scrollUpManually, "Manual scroll up", "ESC"],
+    66: [scrollDownManually, "Scroll down manually", 'B'],
+    116: [toggleScrolling, "Toggle scrolling", 'F5'],
+    34: [increaseSpeed, "Increase speed", 'PageDown'],
+    33: [decreaseSpeed, "Decrease speed", 'PageUp'],
 }
 
 function handleKeyCode(keyCode) {
@@ -205,15 +208,6 @@ function toggleScrolling() {
         return "Scrolling stopped"
     }
 }
-
-
-const commands = [];
-
-for (const [keyCode, [fn, docs, key]] of Object.entries(controls)) {
-    commands.push(`<li class="command"><kbd>${key}</kbd>: ${docs}</li>`)
-}
-const help = document.getElementById('help')
-help.innerHTML = commands.join(' ')
 
 function showInfo(message) {
     snackbar.innerHTML = message;
