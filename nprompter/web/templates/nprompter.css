@@ -111,6 +111,43 @@ kbd {
     cursor: pointer;
 }
 
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates 3 columns of equal width */
+    grid-gap: 10px; /* Space between the grid items */
+    padding: 10px;
+  }
+  
+  .grid-item {
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    /* border: 1px solid rgba(0, 0, 0, 0.8); */
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .key {
+    color:#000;
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 15px;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 0 #ccc, 0 2px 10px #eee inset;
+    user-select: none; /* so the text is not selectable */
+  }
+  
+  .key:active {
+    box-shadow: 0 0 0 #ccc, 0 2px 5px #eee inset; /* simulates the key being pressed */
+  }
+
 /* spans */
 
 span.code {
