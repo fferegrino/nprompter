@@ -1,3 +1,9 @@
+## v3.13.2 (2023-12-05)
+
+### Feat
+
+- A better help modal screen
+
 ## v3.13.1 (2023-12-02)
 
 ### Feat
