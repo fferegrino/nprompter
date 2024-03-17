@@ -12,7 +12,7 @@ document.addEventListener('keydown', logKey);
 setFontSize(getSetting("fontSize"))
 setPadding(getSetting("paddingSize"))
 setLineHeight(getSetting("lineHeight"))
-
+setMirrored(getSetting("mirrored"))
 
 
 function logKey(e) {
@@ -68,18 +68,31 @@ function increaseLineHeight() {
     return `Line height: ${newLineHeight.toFixed(2)}`
 }
 
+function setMirrored(mirror) {
+    if (mirror) {
+        mirrorElements.forEach(function(element) {
+            element.classList.add('mirrored')
+        })
+    } else {
+        mirrorElements.forEach(function(element) {
+            element.classList.remove('mirrored')
+        })
+    }
+    saveSetting("mirrored", mirror)
+}
+
+function mirrorScreen() {
+    const mirrored = !getSetting("mirrored")
+    setMirrored(mirrored)
+    return `Screen mirrored: ${mirrored}`
+}
+
 function decreaseLineHeight() {
     const currentLineHeight = getSetting("lineHeight")
     const newLineHeight =  Math.max(minLineHeight, currentLineHeight - lineHeightIncrement);
     setLineHeight(newLineHeight)
     saveSetting("lineHeight", newLineHeight)
     return `Line height: ${newLineHeight.toFixed(2)}`
-}
-
-function mirrorScreen() {
-    mirrorElements.forEach(function(element) {
-        element.classList.toggle('mirrored')
-    })
 }
 
 function setPadding(paddingSize) {
