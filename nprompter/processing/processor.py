@@ -114,12 +114,14 @@ class HtmlNotionProcessor:
                 block_contents.append("<ul>")
                 bulleted_list_item = True
             elif block_type != "bulleted_list_item" and bulleted_list_item:
+                bulleted_list_item = False
                 block_contents.append("</ul>")
 
             if block_type == "numbered_list_item" and not numbered_list_item:
                 block_contents.append("<ol>")
                 numbered_list_item = True
             elif block_type != "numbered_list_item" and numbered_list_item:
+                numbered_list_item = False
                 block_contents.append("</ol>")
 
             if block_type == "paragraph":
@@ -165,7 +167,7 @@ class HtmlNotionProcessor:
     def process_paragraph(self, block, block_type, tag_name):
         notion_color = block[block_type].get("color", "default")
         base_classes = [block_type, f"notion-{notion_color}"]
-        if notion_color != "default" and self.configuration["processor"]["hide_colors"]:
+        if notion_color != "default" and self.configuration["processor"]["hide_non_default_colors"]:
             base_classes.append("notion-hide")
         contents = block[block_type].get("text", block[block_type].get("rich_text", []))
         paragraph_content_tags = []

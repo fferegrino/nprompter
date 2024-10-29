@@ -13,7 +13,7 @@ family = "'Roboto', sans-serif"
 
 [processor]
 skip_on_break = false
-hide_colors = false
+hide_non_default_colors = false
 render_code = "placeholder"
 
 [screen]

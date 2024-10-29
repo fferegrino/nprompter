@@ -21,7 +21,7 @@ p {
     line-height: {{ font.line_height }};
 }
 
-ul {
+ul, ol {
     margin: {{ screen.pmargin.vertical }}px {{ screen.pmargin.horizontal }}px;
     line-height: {{ font.line_height }};
 }
