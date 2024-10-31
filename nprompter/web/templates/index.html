@@ -9,4 +9,7 @@
             {% endfor %}
         </ul>
     {% endfor %}
+    {% if extra_html %}
+        {{ extra_html | safe }}
+    {% endif %}
 {% endblock %}

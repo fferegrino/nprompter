@@ -32,6 +32,7 @@ class HtmlNotionProcessor:
         self.logger = logging.getLogger("NotionProcessor")
         self.configuration = configuration or {}
         self.custom_css = []
+        self.extra_html = configuration.get("build", {}).get("extra_html", None)
 
     def prepare_folder(self, configuration: Dict):
         if not self.output_folder.exists():
@@ -57,7 +58,9 @@ class HtmlNotionProcessor:
     def process_databases(self, database_id: str, config: Dict):
         db = self._process_single_database(database_id, config)
 
-        content = self.index_template.render(databases=[db], version=nprompter.__version__, custom_css=self.custom_css)
+        content = self.index_template.render(
+            databases=[db], version=nprompter.__version__, custom_css=self.custom_css, extra_html=self.extra_html
+        )
         with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
             writeable.write(content)
 
