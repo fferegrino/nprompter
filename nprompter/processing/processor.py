@@ -1,7 +1,7 @@
 import logging
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, Optional, Union
 
 import pkg_resources
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -61,7 +61,7 @@ class HtmlNotionProcessor:
         for database in config["build"]["databases"]:
             copy_database = config.copy()
             copy_database["build"].update(database)
-            processed_db = self.process_database(database["id"], config=copy_database)
+            processed_db = self.process_database(database["database_id"], config=copy_database)
             processed_databases.append(processed_db)
 
         content = self.global_index_template.render(
