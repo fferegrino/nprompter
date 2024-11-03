@@ -28,7 +28,7 @@ class HtmlNotionProcessor:
         )
 
         self.script_template = self.env.get_template("script.html")
-        self.index_template = self.env.get_template("index.html")
+        self.index_template = self.env.get_template("database_index.html")
         self.logger = logging.getLogger("NotionProcessor")
         self.configuration = configuration or {}
         self.custom_css = []
