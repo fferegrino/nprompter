@@ -71,8 +71,10 @@ def build(
     if "custom_css" in config_dict["build"]:
         processor.add_extra_style(custom_css)
 
-    if download_database:
-        processor.process_databases(config_dict["build"]["database_id"], config=config_dict)
+    if "databases" in config_dict["build"]:
+        processor.process_databases(config_dict)
+    elif download_database:
+        processor.process_database(config_dict["build"]["database_id"], config=config_dict, index_at_root=True)
 
 
 @app.command()
