@@ -2,12 +2,9 @@
 {% block title %}Index{% endblock %}
 {% block content %}
     {% for database in databases %}
-        <h2>{{ database.title }}</h2>
-        <ul>
-            {% for script in database.scripts %}
-                <li><a href="{{ script.path }}">{{ script.title }}</a></li>
-            {% endfor %}
-        </ul>
+        <h2>
+            <a href="{{ database.id }}/index.html">{{ database.title }}</a>
+        </h2>
     {% endfor %}
     {% if extra_html %}
         {{ extra_html | safe }}

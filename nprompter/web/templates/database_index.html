@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+    <h2>{{ database.title }}</h2>
+    <ul>
+        {% for script in database.scripts %}
+            <li><a href="{{ script.path }}">{{ script.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if extra_html %}
+        {{ extra_html | safe }}
+    {% endif %}
+{% endblock %}

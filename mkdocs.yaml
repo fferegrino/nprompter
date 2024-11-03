@@ -12,5 +12,6 @@ nav:
   - About nprompter:
     - Usage: nprompter/usage.md
     - Configuration file: nprompter/configuration-file.md
+    - Multi-database support: nprompter/multi-database-support.md
     - Alternatives: nprompter/alternatives.md
     - Create a teleprompter: nprompter/create-teleprompter.md

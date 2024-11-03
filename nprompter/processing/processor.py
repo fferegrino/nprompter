@@ -28,7 +28,8 @@ class HtmlNotionProcessor:
         )
 
         self.script_template = self.env.get_template("script.html")
-        self.index_template = self.env.get_template("index.html")
+        self.index_template = self.env.get_template("database_index.html")
+        self.global_index_template = self.env.get_template("global_index.html")
         self.logger = logging.getLogger("NotionProcessor")
         self.configuration = configuration or {}
         self.custom_css = []
@@ -55,14 +56,39 @@ class HtmlNotionProcessor:
         self.custom_css.append(path.name)
         shutil.copy(path, self.output_folder)
 
-    def process_databases(self, database_id: str, config: Dict):
+    def process_databases(self, config):
+        processed_databases = []
+        for database in config["build"]["databases"]:
+            copy_database = config.copy()
+            copy_database["build"].update(database)
+            processed_db = self.process_database(database["database_id"], config=copy_database)
+            processed_databases.append(processed_db)
+
+        content = self.global_index_template.render(
+            databases=processed_databases,
+            version=nprompter.__version__,
+            custom_css=self.custom_css,
+            extra_html=self.extra_html,
+        )
+        file_name = Path(self.output_folder, "index.html")
+        with open(file_name, "w", encoding="utf8") as writeable:
+            writeable.write(content)
+
+    def process_database(self, database_id: str, config: Dict, index_at_root: bool = False):
         db = self._process_single_database(database_id, config)
 
         content = self.index_template.render(
-            databases=[db], version=nprompter.__version__, custom_css=self.custom_css, extra_html=self.extra_html
+            database=db, version=nprompter.__version__, custom_css=self.custom_css, extra_html=self.extra_html
         )
-        with open(self.output_folder / "index.html", "w", encoding="utf8") as writeable:
+        if index_at_root:
+            file_name = Path(self.output_folder, "index.html")
+        else:
+            file_name = Path(self.output_folder, database_id, "index.html")
+        file_name.parent.mkdir(exist_ok=True, parents=True)
+        with open(file_name, "w", encoding="utf8") as writeable:
             writeable.write(content)
+
+        return db
 
     def _process_single_database(self, database_id: str, config: Dict):
         database = self.notion_client.get_database(database_id)
@@ -73,7 +99,7 @@ class HtmlNotionProcessor:
         )
         # Create database folder
         (self.output_folder / database_id).mkdir(exist_ok=True)
-        database_dict = {"title": database["title"][0]["plain_text"], "scripts": []}
+        database_dict = {"id": database_id, "title": database["title"][0]["plain_text"], "scripts": []}
 
         sort_property = config["build"]["sort"]["property"]
         sort_property_definition = database["properties"][sort_property]
@@ -97,11 +123,12 @@ class HtmlNotionProcessor:
             elements=block_contents, title=title, version=nprompter.__version__, custom_css=self.custom_css
         )
 
-        file_name = Path(self.output_folder, database_id, f"{title_slug}.html")
+        file_name = Path(self.output_folder, database_id, title_slug, "index.html")
+        file_name.parent.mkdir(exist_ok=True, parents=True)
         with open(file_name, "w", encoding="utf8") as writeable:
             writeable.write(content)
 
-        from_root_path = f"{database_id}/{title_slug}.html"
+        from_root_path = f"/{database_id}/{title_slug}/index.html"
         return {"title": title, "path": from_root_path}
 
     def process_blocks(self, blocks):
