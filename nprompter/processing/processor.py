@@ -41,12 +41,19 @@ class HtmlNotionProcessor:
 
         js_template = self.env.get_template("settings.js")
         css_template = self.env.get_template("nprompter.css")
-
+        manifest_template = self.env.get_template("manifest.json")
+        service_worker_template = self.env.get_template("service-worker.js")
         with open(self.output_folder / "settings.js", "w", encoding="utf8") as writeable:
             writeable.write(js_template.render(**configuration))
 
         with open(self.output_folder / "nprompter.css", "w", encoding="utf8") as writeable:
             writeable.write(css_template.render(**configuration))
+
+        with open(self.output_folder / "manifest.json", "w", encoding="utf8") as writeable:
+            writeable.write(manifest_template.render(**configuration))
+
+        with open(self.output_folder / "service-worker.js", "w", encoding="utf8") as writeable:
+            writeable.write(service_worker_template.render(**configuration))
 
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
         if self.user_assets_folder and self.user_assets_folder.exists():
