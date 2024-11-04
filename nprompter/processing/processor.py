@@ -53,7 +53,7 @@ class HtmlNotionProcessor:
             writeable.write(manifest_template.render(**configuration))
 
         with open(self.output_folder / "service-worker.js", "w", encoding="utf8") as writeable:
-            writeable.write(service_worker_template.render(**configuration))
+            writeable.write(service_worker_template.render(**configuration, version=nprompter.__version__))
 
         shutil.copytree(self.assets_folder, self.output_folder, dirs_exist_ok=True)
         if self.user_assets_folder and self.user_assets_folder.exists():

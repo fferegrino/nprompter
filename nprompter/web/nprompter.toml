@@ -33,3 +33,8 @@ filter.property = "Status"
 filter.value = "Ready"
 sort.property = "Name"
 extra_html = ""
+
+[manifest]
+app_name = "Nprompter"
+short_name = "Nprompter"
+description = "A Notion-powered teleprompter"

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'your-app-cache-v1';
+const CACHE_NAME = '{{ build.app_name }} {{ version }}';
 const urlsToCache = [
   '/',
   '/index.html',
