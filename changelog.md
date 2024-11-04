@@ -1,3 +1,9 @@
+## v4.1.0 (2024-11-04)
+
+### Feat
+
+- Make the app installable
+
 ## v4.0.0 (2024-11-03)
 
 ### Feat
