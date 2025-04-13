@@ -211,6 +211,12 @@ class HtmlNotionProcessor:
         for content in contents:
             if text := content.get("text"):
                 text_content = text["content"].replace("\n", "<br />")
+                if (
+                    text_content.startswith("[")
+                    and text_content.endswith("]")
+                    and self.configuration["processor"]["skip_square_brackets"]
+                ):
+                    continue
                 annotations = content["annotations"]
                 annotations_tags = ["bold", "italic", "strikethrough", "underline", "code"]
                 classes = " ".join(base_classes + [tag for tag in annotations_tags if annotations.get(tag)])
