@@ -174,7 +174,9 @@ const controls = {
     73: [debugInfo, "Show debug info to the console", 'I'], // I key
     77: [mirrorScreen, "Mirror screen", 'M'], // M key
     49: [scrollToTop, "Scroll to top", '1'], // X key
-
+    82: [pageRefresh, "Refresh page", 'R'], // R key
+    191: [historyGoBack, "Go back", '/'], // / key
+    
     // Presenter mode controls
     27: [scrollUpManually, "Manual scroll up", "ESC"],
     66: [scrollDownManually, "Scroll down manually", 'B'],
@@ -237,4 +239,13 @@ function showInfo(message) {
               snackbar.className = snackbar.className.replace("show", "");
          }, snackbarTimeout);
    }
+}
+
+function historyGoBack() {
+    history.back();
+    return "Navigated back"
+}
+
+function pageRefresh() {
+    window.location.reload();
 }
