@@ -48,4 +48,4 @@ jobs:
         TEST_PYPI_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
       run: |
         uv build
-        uv publish --index https://test.pypi.org/simple/ --token ${TEST_PYPI_PASSWORD}
+        uv publish --index testpypi --token ${TEST_PYPI_PASSWORD}
