@@ -8,6 +8,8 @@
         {% endfor %}
     </ul>
     {% if extra_html %}
+    <div class="extra-html">
         {{ extra_html | safe }}
+    </div>
     {% endif %}
 {% endblock %}
