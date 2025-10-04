@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TOOL_RUN="poetry run"
+TOOL_RUN="uv run"
 
 function bump {
   NEW_VERSION=`${TOOL_RUN} bumpversion --allow-dirty --dry-run --list $1 | grep new_version | sed -r s,"^.*=",,`

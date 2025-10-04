@@ -10,3 +10,6 @@ prompter/
 _build/
 
 site/
+
+.venv/
+*.egg-info/
