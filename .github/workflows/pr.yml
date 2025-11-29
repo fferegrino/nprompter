@@ -29,4 +29,6 @@ jobs:
     - name: Run Black
       run: uv run black . --check
     - name: Run tests
+      env:
+        NOTION_API_KEY: ${{ secrets.NPROMPTER_TEST_NOTION_API_KEY }}
       run: uv run pytest

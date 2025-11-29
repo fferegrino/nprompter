@@ -10,7 +10,6 @@ runner = CliRunner()
 
 def test_app(tmp_path: Path):
     result = runner.invoke(app, ["build", "c68ccc052d1b4eaaa3091e637f7011c0", "--output", tmp_path])
-    breakpoint()
     assert result.exit_code == 0, result.output
     assert (tmp_path / "index.html").exists()
     with open(tmp_path / "index.html", "r") as file:
