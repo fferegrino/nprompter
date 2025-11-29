@@ -1,3 +1,9 @@
+## v4.3.0 (2025-11-29)
+
+### Feat
+
+- added `extra-html` div for extra html content
+
 ## v4.2.0 (2025-04-13)
 
 ## v4.1.0 (2024-11-04)
