@@ -25,17 +25,30 @@ class NotionClient:
             "Notion-Version": notion_version,
         }
 
-    def get_database(self, database_id: str) -> Dict:
+    def get_data_source_from_database(self, database_id: str) -> Dict:
         database = requests.get(
             f"https://api.notion.com/v1/databases/{database_id}",
             headers=self.headers,
         ).json()
-        return database
 
-    def get_pages(self, database_id: str, property_filter: str, property_value: str) -> List[Dict]:
+        if data_sources := database.get("data_sources"):
+            if len(data_sources) > 1:
+                # TODO: Handle multiple data sources
+                pass
+            data_source_id = data_sources[0]["id"]
+        else:
+            raise ValueError(f"Database {database_id} has no data sources")
+
+        data_source = requests.get(
+            f"https://api.notion.com/v1/data_sources/{data_source_id}",
+            headers=self.headers,
+        ).json()
+        return data_source
+
+    def get_pages(self, data_source_id: str, property_filter: str, property_value: str) -> List[Dict]:
         query = build_filter_query([(property_filter, "equals", property_value)])
         database = requests.post(
-            f"https://api.notion.com/v1/databases/{database_id}/query",
+            f"https://api.notion.com/v1/data_sources/{data_source_id}/query",
             json=query,
             headers=self.headers,
         ).json()

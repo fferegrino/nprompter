@@ -98,18 +98,18 @@ class HtmlNotionProcessor:
         return db
 
     def _process_single_database(self, database_id: str, config: Dict):
-        database = self.notion_client.get_database(database_id)
+        data_source = self.notion_client.get_data_source_from_database(database_id)
         pages = self.notion_client.get_pages(
-            database_id=database_id,
+            data_source_id=data_source["id"],
             property_filter=config["build"]["filter"]["property"],
             property_value=config["build"]["filter"]["value"],
         )
         # Create database folder
         (self.output_folder / database_id).mkdir(exist_ok=True)
-        database_dict = {"id": database_id, "title": database["title"][0]["plain_text"], "scripts": []}
+        database_dict = {"id": database_id, "title": data_source["title"][0]["plain_text"], "scripts": []}
 
         sort_property = config["build"]["sort"]["property"]
-        sort_property_definition = database["properties"][sort_property]
+        sort_property_definition = data_source["properties"][sort_property]
         sort_property_type = sort_property_definition["type"]
         if sort_property_type in ["title", "rich_text"]:
             pages = sorted(
