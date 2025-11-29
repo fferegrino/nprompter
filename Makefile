@@ -1,4 +1,4 @@
-TOOL_RUN=poetry run
+TOOL_RUN=uv run
 
 fmt:
 	$(TOOL_RUN) black .
