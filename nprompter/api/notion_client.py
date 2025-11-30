@@ -43,6 +43,8 @@ class NotionClient:
             f"https://api.notion.com/v1/data_sources/{data_source_id}",
             headers=self.headers,
         ).json()
+        if data_source.get("object") == "error":
+            raise ValueError(f"{data_source['code']} - {data_source['message']}")
         return data_source
 
     def get_pages(self, data_source_id: str, property_filter: str, property_value: str) -> List[Dict]:
