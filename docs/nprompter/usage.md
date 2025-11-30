@@ -29,10 +29,14 @@ The build command takes several *optional* parameters that allow for great custo
 
  * `-o [PATH]` / `--output [PATH]`: to specify where the output should be written to. Defaults to *"./prompter"*.  
  * `-f [STRING]` / `--filter [STRING]`: Nprompter fetches data from a Notion database filtering by properties and specific values, use this to specify which property to filter by. Defaults to *"Status"*.
- * `-v [STRING]` / `--value [STRING]`: Nprompter fetches data from a Notion database filtering by properties and specific values, use this to specify which value to search for. Defaults to *"Ready"*.
+ * `--value [STRING]`: Nprompter fetches data from a Notion database filtering by properties and specific values, use this to specify which value to search for. Defaults to *"Ready"*.
  * `-c [PATH]` / `--config [PATH]`: Specifies the location of a configuration file. Defaults to *None*. See the [syntax](./configuration-file.md) of the configuration file for more information.
- * `-s [PATH]` / `--extra-css [PATH]`: Specifies the location of an additional CSS file to further customize the teleprompter's appereance. Defaults to *None*.  
+ * `--extra-css [PATH]`: Specifies the location of an additional CSS file to further customize the teleprompter's appereance. Defaults to *None*.  
  * `--download/--no-download`: A flag that specifies whether to download information from _Notion_ or simply regenerate the styles that accompany the teleprompter. Defaults to *--download*.
+ * `-q` / `--quiet`: Suppress all output except errors
+ * `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`)
+
+ > For more information about verbosity control, see the [verbosity documentation](./verbosity.md).
 
 ## `serve`
 
@@ -47,6 +51,8 @@ You can simply run `nprompter serve` without any arguments to use the defaults: 
 ### Options
 
  * `--browser/--no-browser`: Whether the command will attempt to open the computer's default browser pointing to the teleprompter's page. The default is *--browser*.
+ * `-q` / `--quiet`: Suppress all output except errors
+ * `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`)
 
 ## `create-config`
 
@@ -55,3 +61,5 @@ This command helps the user create a configuration file used to customise the be
 ### Options
 
  * `--override/--no-override`:  This flag allows the user to specify whether to override or not any existing `config.toml`. The default is set to `--no-override`.
+ * `-q` / `--quiet`: Suppress all output except errors
+ * `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`)
