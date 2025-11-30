@@ -1,4 +1,3 @@
-import logging
 import shutil
 from importlib.resources import files
 from pathlib import Path
@@ -9,6 +8,7 @@ from slugify import slugify
 
 import nprompter
 from nprompter.api.notion_client import NotionClient
+from nprompter.cli.output import verbose, warning
 
 
 class HtmlNotionProcessor:
@@ -30,7 +30,6 @@ class HtmlNotionProcessor:
         self.script_template = self.env.get_template("script.html")
         self.index_template = self.env.get_template("database_index.html")
         self.global_index_template = self.env.get_template("global_index.html")
-        self.logger = logging.getLogger("NotionProcessor")
         self.configuration = configuration or {}
         self.custom_css = []
         self.extra_html = configuration.get("build", {}).get("extra_html", None)
@@ -179,13 +178,13 @@ class HtmlNotionProcessor:
                 block_contents.append(f"<p>${expression}$</p>")
             elif block_type == "divider":
                 if self.configuration["processor"]["skip_on_break"]:
-                    self.logger.info("Found divider, stopping block processing")
+                    verbose("Found divider, stopping block processing")
                     break
                 else:
                     block_contents.append("<hr />")
             elif block_type == "code":
                 if self.configuration["processor"]["render_code"] == "skip":
-                    self.logger.info("Found code block, don't render")
+                    verbose("Found code block, don't render")
                 elif self.configuration["processor"]["render_code"] == "placeholder":
                     block_contents.append("<p>⚠ Code block ⚠</p>")
                 elif self.configuration["processor"]["render_code"] == "render":
@@ -193,11 +192,11 @@ class HtmlNotionProcessor:
                     block_contents.append(block["code"]["rich_text"][0]["plain_text"])
                     block_contents.append("</pre>")
                 else:
-                    self.logger.warning("Invalid configuration for render_code")
+                    warning("Invalid configuration for render_code")
             else:
                 block_contents.append(f"<p>⚠ {block['type']} ⚠</p>")
                 block_contents.append(f"<!-- Block of type {block['type']} is not currently supported by Nprompter -->")
-                self.logger.warning(f"Block of type {block['type']} is not currently supported by Nprompter")
+                warning(f"Block of type {block['type']} is not currently supported by Nprompter")
 
         return block_contents
 
