@@ -219,6 +219,8 @@ class HtmlNotionProcessor:
                 annotations = content["annotations"]
                 annotations_tags = ["bold", "italic", "strikethrough", "underline", "code"]
                 classes = " ".join(base_classes + [tag for tag in annotations_tags if annotations.get(tag)])
+                if self.configuration["processor"]["replace_nbsp"]:
+                    text_content = text_content.replace(chr(160), " ")
                 tag = f'<span class="{classes}">{text_content}</span>'
                 paragraph_content_tags.append(tag)
             elif equation := content.get("equation"):
