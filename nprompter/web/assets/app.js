@@ -49,13 +49,13 @@ function scrollToTop() {
 function decreaseSpeed() {
     const scrollSpeed = Math.min(maxScrollSpeed, getSetting("scrollSpeed") + scrollSpeedIncrease);
     saveSetting("scrollSpeed", scrollSpeed)
-    return `Scroll speed: ${scrollSpeed}`
+    return `Scroll speed: ${maxScrollSpeed - scrollSpeed}`
 }
 
-function increaseSpeed() {
+function  increaseSpeed() {
     const scrollSpeed = Math.max(0, getSetting("scrollSpeed") - scrollSpeedIncrease)
     saveSetting("scrollSpeed", scrollSpeed)
-    return `Scroll speed: ${scrollSpeed}`
+    return `Scroll speed: ${maxScrollSpeed - scrollSpeed}`
 }
 
 function setLineHeight(lineHeight) {
