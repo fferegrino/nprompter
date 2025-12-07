@@ -14,6 +14,8 @@ family = "'Roboto', sans-serif"
 [processor]
 skip_on_break = false
 hide_non_default_colors = false
+skip_square_brackets = false
+replace_nbsp = true
 render_code = "placeholder"
 
 [screen]
