@@ -1,3 +1,11 @@
+## v4.4.0 (2025-12-07)
+
+### Feat
+
+- Add option to replace non breaking spaces for spaces
+- Allow meta keys in browser view
+- Improved output presentation
+
 ## v4.3.0 (2025-11-29)
 
 ### Feat
