@@ -17,6 +17,9 @@ setMirrored(getSetting("mirrored"))
 
 function logKey(e) {
     const keyCode = e.keyCode;
+    if (e.metaKey) {
+        return;
+    }
     if (handleKeyCode(keyCode)) {
         e.preventDefault();
     }
