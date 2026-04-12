@@ -1,3 +1,9 @@
+## v4.4.1 (2026-04-12)
+
+### Feat
+
+- Show more readable examples
+
 ## v4.4.0 (2025-12-07)
 
 ### Feat
