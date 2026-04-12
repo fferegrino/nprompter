@@ -6,7 +6,10 @@ from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any, Optional
 
+import tomli
 import typer
+from jinja2 import TemplateError
+from requests import RequestException
 
 import nprompter
 import nprompter.web
@@ -28,6 +31,11 @@ from nprompter.cli.output import (
 from nprompter.processing.processor import HtmlNotionProcessor
 
 app = typer.Typer(add_completion=False)
+
+
+def _build_phase_error(phase: str, exc: Exception) -> None:
+    """Log a build failure with phase context and exception type (not only when --verbose)."""
+    error(f"{phase}: {type(exc).__name__}: {exc}", err=exc)
 
 
 @app.command()
@@ -71,7 +79,14 @@ def build(
 
     try:
         config_dict = get_config(configuration_file)
+    except tomli.TOMLDecodeError as e:
+        _build_phase_error("Configuration file has invalid TOML syntax", e)
+        raise typer.Exit(code=1)
+    except OSError as e:
+        _build_phase_error("Could not read the configuration file", e)
+        raise typer.Exit(code=1)
 
+    try:
         if property_filter is not None:
             config_dict["build"]["filter"]["property"] = property_filter
             verbose(f"Using filter property: {property_filter}")
@@ -89,22 +104,44 @@ def build(
         if custom_css is not None:
             config_dict["build"]["custom_css"] = str(custom_css)
             verbose(f"Using custom CSS: {custom_css}")
+    except KeyError as e:
+        _build_phase_error(
+            "Configuration is missing a required section or key (expected [build] with filter and sort)",
+            e,
+        )
+        raise typer.Exit(code=1)
 
-        notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
-        debug(f"Using Notion API version: {notion_version}")
+    notion_version = os.getenv("NOTION_VERSION", nprompter.__notion_version__)
+    debug(f"Using Notion API version: {notion_version}")
 
+    try:
         progress("Connecting to Notion API...")
         notion_client = NotionClient(notion_api_key=notion_api_key, notion_version=notion_version)
         processor = HtmlNotionProcessor(notion_client, output_folder=output, configuration=config_dict)
+    except KeyError as e:
+        _build_phase_error("Configuration is missing keys required to initialize the processor", e)
+        raise typer.Exit(code=1)
 
+    try:
         progress("Preparing output folder...")
         processor.prepare_folder(config_dict)
         verbose(f"Output folder prepared: {output}")
+    except OSError as e:
+        _build_phase_error("Could not create the output folder or write static assets", e)
+        raise typer.Exit(code=1)
+    except TemplateError as e:
+        _build_phase_error("Template rendering failed while preparing the output folder", e)
+        raise typer.Exit(code=1)
 
-        if "custom_css" in config_dict["build"]:
+    if "custom_css" in config_dict["build"]:
+        try:
             progress("Adding custom CSS...")
             processor.add_extra_style(custom_css)
+        except OSError as e:
+            _build_phase_error("Could not copy the custom CSS file into the output folder", e)
+            raise typer.Exit(code=1)
 
+    try:
         if "databases" in config_dict["build"]:
             progress("Processing multiple databases...")
             processor.process_databases(config_dict)
@@ -116,9 +153,20 @@ def build(
             success(f"Successfully processed database: {db_id}")
         else:
             info("Skipping database download (--no-download flag set)")
-
-    except Exception as e:
-        error(f"Failed to build teleprompter: {str(e)}", err=e)
+    except RequestException as e:
+        _build_phase_error("Network or HTTP error while calling the Notion API", e)
+        raise typer.Exit(code=1)
+    except ValueError as e:
+        _build_phase_error("Notion API returned an error or the response could not be parsed", e)
+        raise typer.Exit(code=1)
+    except (KeyError, IndexError) as e:
+        _build_phase_error("Could not interpret Notion page or database data (structure mismatch)", e)
+        raise typer.Exit(code=1)
+    except OSError as e:
+        _build_phase_error("Could not write generated HTML files", e)
+        raise typer.Exit(code=1)
+    except TemplateError as e:
+        _build_phase_error("Template rendering failed while generating pages", e)
         raise typer.Exit(code=1)
 
 
