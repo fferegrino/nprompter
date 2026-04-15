@@ -22,7 +22,7 @@ nprompter = "nprompter.__main__:app"
 [dependency-groups]
 dev = [
     "beautifulsoup4>=4.14.2",
-    "bump2version>=1.0.1",
+    "bump-my-version>=1.2.0",
     "commitizen>=4.9.1",
     "mkdocs-material>=9.6.21",
     "myst-parser>=4.0.1",
@@ -55,6 +55,22 @@ select = ["E", "F", "I"]
 default-section = "third-party"
 known-first-party = ["nprompter"]
 combine-as-imports = true
+
+[tool.bumpversion]
+current_version = "4.4.1"
+commit = true
+tag = true
+tag_name = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "nprompter/__init__.py"
+search = "__version__ = \"{current_version}\""
+replace = "__version__ = \"{new_version}\""
 
 [tool.uv.build-backend]
 module-root = "."
