@@ -22,46 +22,39 @@ nprompter = "nprompter.__main__:app"
 [dependency-groups]
 dev = [
     "beautifulsoup4>=4.14.2",
-    "black>=25.9.0",
     "bump2version>=1.0.1",
     "commitizen>=4.9.1",
-    "isort>=6.1.0",
     "mkdocs-material>=9.6.21",
     "myst-parser>=4.0.1",
     "pyproject-flake8>=7.0.0",
     "pytest>=8.4.2",
+    "ruff>=0.13.0",
 ]
-
-[tool.black]
-line-length = 120
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.venv         # root of the project
-    | dist           # root of the project
-  )/
-)
-'''
 
 [tool.flake8]
 max-line-length = 120
 per-file-ignores = []
 exclude = [".venv", ".content", "dist"]
 
-[tool.isort]
-skip_glob = [".content", "dist"]
-# Structure
-default_section = "THIRDPARTY"
-known_first_party = "nprompter"
-# Import Style
-line_length = 120
-force_grid_wrap = false
-use_parentheses = true
-include_trailing_comma = true
-combine_as_imports = true
-multi_line_output = 3
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    ".content",
+    ".eggs",
+    ".git",
+    ".venv",
+    "dist",
+]
+
+[tool.ruff.format]
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+default-section = "third-party"
+known-first-party = ["nprompter"]
+combine-as-imports = true
 
 [tool.uv.build-backend]
 module-root = "."

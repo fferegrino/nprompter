@@ -248,5 +248,5 @@ def create_config(
         success(f"Configuration file created: {config_path}")
         verbose(f"File location: {os.path.abspath(config_path)}")
     else:
-        warning(f"The file {config_path} already exists. " "Use the --override flag to replace it.")
+        warning(f"The file {config_path} already exists. Use the --override flag to replace it.")
         raise typer.Exit(code=1)

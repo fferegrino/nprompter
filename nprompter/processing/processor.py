@@ -224,7 +224,7 @@ class HtmlNotionProcessor:
                 tag = f'<span class="{classes}">{text_content}</span>'
                 paragraph_content_tags.append(tag)
             elif equation := content.get("equation"):
-                paragraph_content_tags.append(f'${equation["expression"]}$')
+                paragraph_content_tags.append(f"${equation['expression']}$")
         if paragraph_content_tags:
             paragraph_content = "".join(paragraph_content_tags)
             return f'<{tag_name} class="nprompter-element">{paragraph_content}</{tag_name}>'
