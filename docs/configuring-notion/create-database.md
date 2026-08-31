@@ -44,7 +44,7 @@ As you can see, I have statuses for scripts that are just an _Idea_, for the mom
 
 ## Change grouping
 
-If you visit your board's page you will notice that your changes are not yet visible; You still have three columns: To-Do, In progress and Complete. To reflect the changes you made to the _Satus_ property, you will need to change the grouping. Click on the three dots at the top right of your board and then click on _Group_.
+If you visit your board's page you will notice that your changes are not yet visible; You still have three columns: To-Do, In progress and Complete. To reflect the changes you made to the _Status_ property, you will need to change the grouping. Click on the three dots at the top right of your board and then click on _Group_.
 
 ![](https://ik.imagekit.io/thatcsharpguy/posts/nprompter/create-page-change-group.png?ik-sdk-version=javascript-1.4.3&updatedAt=1665221737035)
 
@@ -54,7 +54,7 @@ Then change the value of _Sort by_ from _Group_ to _Option_.
 
  > 😬 As of the writing of this documentation there is no way to rearrange the columns. So if yours are out of order, do not worry. Hopefully Notion will do something for us soon.
 
-And that is it! you have created your first page fully compatible with _Nprompter_. The next thing you need to do is [create an integration](./create-integration.md).
+And that is it! You have created your first page fully compatible with _Nprompter_. The next thing you need to do is [create an integration](./create-integration.md).
 
 ## Live demo
 

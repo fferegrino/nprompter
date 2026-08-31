@@ -13,30 +13,39 @@ pip install nprompter
 
 This command is used to generate your teleprompter pages from a Notion database.
 
-After you have [created an integration](/configuring-notion/create-integration.md), and  the next step is as easy as running the command `build`:
+After you have [created an integration](../configuring-notion/create-integration.md), the next step is as easy as running the command `build`:
 
 ```shell
-nprompter build [DATABASE ID] (NOTION_API_KEY)
+nprompter build [DATABASE ID] [NOTION_API_KEY]
 ```
 
-This command will generate a bunch of html files in a folder named `prompter`, just open the `index.html` file inside that browser to start using your teleprompter.
+This command will generate a bunch of HTML files in a folder named `prompter`, just open the `index.html` file inside a browser to start using your teleprompter (or serve them via `nprompter serve`).
 
- > Note that you can specify the `NOTION_API_KEY` parameter via an environment variable too, and it is arguably a better alternative.
+> **Tip:** You can specify `NOTION_API_KEY` via an environment variable `NOTION_API_KEY` or configure the database in `nprompter.toml`, making both arguments optional when running `nprompter build`.
 
 ### Options
 
-The build command takes several *optional* parameters that allow for great customisation:
+The `build` command takes several optional parameters that allow for customization:
 
- * `-o [PATH]` / `--output [PATH]`: to specify where the output should be written to. Defaults to *"./prompter"*.  
- * `-f [STRING]` / `--filter [STRING]`: Nprompter fetches data from a Notion database filtering by properties and specific values, use this to specify which property to filter by. Defaults to *"Status"*.
- * `--value [STRING]`: Nprompter fetches data from a Notion database filtering by properties and specific values, use this to specify which value to search for. Defaults to *"Ready"*.
- * `-c [PATH]` / `--config [PATH]`: Specifies the location of a configuration file. Defaults to *None*. See the [syntax](./configuration-file.md) of the configuration file for more information.
- * `--extra-css [PATH]`: Specifies the location of an additional CSS file to further customize the teleprompter's appereance. Defaults to *None*.  
- * `--download/--no-download`: A flag that specifies whether to download information from _Notion_ or simply regenerate the styles that accompany the teleprompter. Defaults to *--download*.
- * `-q` / `--quiet`: Suppress all output except errors
- * `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`)
+* `-o [PATH]` / `--output [PATH]`: Where the output should be written. Defaults to `"prompter"`.
+* `-f [STRING]` / `--filter [STRING]`: Notion database property name to filter pages by. Defaults to `"Status"`.
+* `--value [STRING]`: The property value to filter by. Defaults to `"Ready"`.
+* `-s [STRING]` / `--sort [STRING]`: Notion database property name to sort documents by. Defaults to `"Name"`.
+* `-c [PATH]` / `--config [PATH]`: Path to an appearance configuration file. Defaults to `nprompter.toml` if present in current directory. See [Configuration file](./configuration-file.md) for details.
+* `--extra-css [PATH]`: Path to an additional CSS file to further customize the teleprompter's appearance. Defaults to `None`.
+* `--download/--no-download`: Whether to download information from Notion or simply regenerate the static styles and assets. Defaults to `--download`.
+* `-q` / `--quiet`: Suppress all output except errors.
+* `-v` / `--verbose`: Increase verbosity (can be passed multiple times: `-v`, `-vv`, `-vvv`).
 
- > For more information about verbosity control, see the [verbosity documentation](./verbosity.md).
+### Verbosity levels
+
+You can control the amount of feedback printed to the console using `-q` or `-v`:
+
+* **Default (normal):** Shows standard operational messages and errors.
+* **Quiet (`-q` / `--quiet`):** Suppresses all output except errors.
+* **Verbose (`-v`):** Shows detailed step-by-step progress and configuration values used.
+* **Very Verbose (`-vv` / `-vvv`):** Enables debugging information including full stack traces and HTTP logs.
+
 
 ## `serve`
 
@@ -56,10 +65,14 @@ You can simply run `nprompter serve` without any arguments to use the defaults: 
 
 ## `create-config`
 
-This command helps the user create a configuration file used to customise the behaviour and appearance of the teleprompter.
+This command generates a starter `nprompter.toml` configuration file with the default settings in your current working directory.
+
+```shell
+nprompter create-config [OPTIONS]
+```
 
 ### Options
 
- * `--override/--no-override`:  This flag allows the user to specify whether to override or not any existing `config.toml`. The default is set to `--no-override`.
- * `-q` / `--quiet`: Suppress all output except errors
- * `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`)
+* `--override/--no-override`: Whether to overwrite an existing `nprompter.toml` file. Defaults to `--no-override`.
+* `-q` / `--quiet`: Suppress all output except errors.
+* `-v` / `--verbose`: Increase verbosity (can be used multiple times: `-v`, `-vv`, `-vvv`).

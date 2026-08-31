@@ -34,4 +34,4 @@ To fetch data from *Nprompter*, it is necessary to know in advance which page to
 
 ![](https://ik.imagekit.io/thatcsharpguy/posts/nprompter/db-id.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656750180841)
 
-This is the necessary information you will need to use _Nprompter_, now you can [check its usage](./usage.md).
+This is the necessary information you will need to use _Nprompter_, now you can [check its usage](../nprompter/usage.md).
