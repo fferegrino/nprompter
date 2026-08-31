@@ -1,12 +1,12 @@
-import importlib
 import os
 import socketserver
+import tomllib
 import webbrowser
 from http.server import SimpleHTTPRequestHandler
+from importlib.resources import files
 from pathlib import Path
 from typing import Any, Optional
 
-import tomli
 import typer
 from jinja2 import TemplateError
 from requests import RequestException
@@ -79,7 +79,7 @@ def build(
 
     try:
         config_dict = get_config(configuration_file)
-    except tomli.TOMLDecodeError as e:
+    except tomllib.TOMLDecodeError as e:
         _build_phase_error("Configuration file has invalid TOML syntax", e)
         raise typer.Exit(code=1)
     except OSError as e:
@@ -240,7 +240,7 @@ def create_config(
     config_path = nprompter.cli.defaults.DEFAULT_CONFIG_PATH
     debug(f"Creating config file: {config_path}")
 
-    config = importlib.resources.read_text(nprompter.web, nprompter.cli.defaults.DEFAULT_CONFIG_PATH)
+    config = files("nprompter.web").joinpath(nprompter.cli.defaults.DEFAULT_CONFIG_PATH).read_text(encoding="utf-8")
 
     if not os.path.exists(config_path) or override:
         with open(config_path, "w") as writable:
