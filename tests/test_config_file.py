@@ -84,3 +84,25 @@ def test_build_with_invalid_toml(in_temporary_dir):
     result = runner.invoke(app, ["build", "dummy_db", "--config", str(bad_config)])
     assert result.exit_code == 1
     assert "invalid TOML syntax" in result.output
+
+
+def test_template_rendering():
+    from jinja2 import Environment, PackageLoader, select_autoescape
+
+    env = Environment(loader=PackageLoader("nprompter", package_path="web/templates"), autoescape=select_autoescape())
+    database_template = env.get_template("database_index.html")
+    rendered_db = database_template.render(
+        database={"title": "Test DB", "scripts": [{"path": "/db/slug/index.html", "title": "Script 1"}]},
+        version="1.0",
+        custom_css=[],
+        extra_html=None,
+    )
+    assert "<title>Index - Nprompter</title>" in rendered_db
+    assert '<meta property="og:title" content="Index - Nprompter">' in rendered_db
+
+    script_template = env.get_template("script.html")
+    rendered_script = script_template.render(
+        elements=["<p>Hello world</p>"], title="My Script", version="1.0", custom_css=[]
+    )
+    assert "<title>My Script - Nprompter</title>" in rendered_script
+    assert '<meta property="og:title" content="My Script - Nprompter">' in rendered_script
