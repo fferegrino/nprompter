@@ -27,7 +27,8 @@ theme:
 
 plugins:
   - search
-  - social
+  - social:
+      concurrency: 1
 
 extra:
   social:

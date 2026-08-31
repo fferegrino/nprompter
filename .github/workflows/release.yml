@@ -38,6 +38,9 @@ jobs:
         uv publish --token ${PYPI_PASSWORD}
     - name: Publish documentation
       if: startsWith(github.ref, 'refs/tags/')
+      env:
+        DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo apt-get update && sudo apt-get install -y libcairo2-dev libpango1.0-dev libgdk-pixbuf2.0-dev libffi-dev shared-mime-info
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0
         uv run mkdocs gh-deploy --force
