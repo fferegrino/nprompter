@@ -1,17 +1,53 @@
 site_name: nprompter
+site_description: A browser-based web teleprompter powered by Notion for editing and storing scripts.
+site_author: Antonio Feregrino
+site_url: https://nprompter.org/
+copyright: Copyright &copy; 2026 Antonio Feregrino
+repo_url: https://github.com/fferegrino/nprompter
+repo_name: fferegrino/nprompter
 
 theme:
   name: material
-  logo: images/nprompter-dark.png
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+    - navigation.sections
+
+plugins:
+  - search
+  - social
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/fferegrino/nprompter
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/feregrino
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/@antonioferegrino
 
 nav:
   - Home: index.md
   - Configuring Notion:
-    - Create a database: configuring-notion/create-database.md
-    - Create an integration: configuring-notion/create-integration.md
-  - About nprompter:
-    - Usage: nprompter/usage.md
-    - Configuration file: nprompter/configuration-file.md
-    - Multi-database support: nprompter/multi-database-support.md
-    - Alternatives: nprompter/alternatives.md
-    - Create a teleprompter: nprompter/create-teleprompter.md
+      - Create a database: configuring-notion/create-database.md
+      - Create an integration: configuring-notion/create-integration.md
+  - Using nprompter:
+      - CLI Usage: nprompter/usage.md
+      - Keyboard & Remote Controls: nprompter/controls.md
+      - Notion Formatting & Cues: nprompter/notion-formatting.md
+      - Configuration File: nprompter/configuration-file.md
+      - Multi-Database Support: nprompter/multi-database-support.md
+      - DIY Teleprompter Setup: nprompter/create-teleprompter.md
+      - Alternatives: nprompter/alternatives.md

@@ -1,3 +1,8 @@
+---
+title: DIY Teleprompter Setup
+description: Build your own budget teleprompter rig using a monitor arm, beamsplitter glass, and an external screen.
+---
+
 # Create a teleprompter
 
 A professional teleprompter runs on the market for thousands of pounds, however there is an easy and relatively cheap way to create your own. For example, I have mine set up using:
@@ -15,4 +20,3 @@ Which in total was a fraction of the cost of buying a professional one, here are
 ![](https://ik.imagekit.io/thatcsharpguy/posts/nprompter/T3.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1665434201544)
 
 <small>Keep in mind that this page contains affiliate links that make me earn a small commission if you do end up buying from the store.</small>
-

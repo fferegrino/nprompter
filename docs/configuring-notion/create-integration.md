@@ -1,3 +1,8 @@
+---
+title: Creating a Notion Integration
+description: Learn how to create an internal Notion integration, obtain your API token, and connect your database to Nprompter.
+---
+
 # How to use Notion integrations
 
 This guide will show you how to create a Notion integration and grant them permission to access content in your Notion workspace.
@@ -34,4 +39,4 @@ To fetch data from *Nprompter*, it is necessary to know in advance which page to
 
 ![](https://ik.imagekit.io/thatcsharpguy/posts/nprompter/db-id.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656750180841)
 
-This is the necessary information you will need to use _Nprompter_, now you can [check its usage](./usage.md).
+This is the necessary information you will need to use _Nprompter_, now you can [check its usage](../nprompter/usage.md).
