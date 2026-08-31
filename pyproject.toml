@@ -1,6 +1,6 @@
 [project]
 name = "nprompter"
-version = "4.4.1"
+version = "4.4.2"
 description = "A web based teleprompter that uses Notion as a storage backend"
 authors = [
     { name = "Antonio Feregrino", email = "antonio.feregrino@gmail.com" }
@@ -56,7 +56,7 @@ known-first-party = ["nprompter"]
 combine-as-imports = true
 
 [tool.bumpversion]
-current_version = "4.4.1"
+current_version = "4.4.2"
 commit = true
 tag = true
 tag_name = "v{new_version}"
