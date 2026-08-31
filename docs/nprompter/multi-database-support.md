@@ -1,3 +1,8 @@
+---
+title: Multi-Database Support
+description: How to aggregate scripts from multiple Notion databases into a single teleprompter website.
+---
+
 # Multi-database support
 
 _Nprompter_ supports fetching and aggregating content from multiple Notion databases in a single build.

@@ -2,6 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A Notion-powered web teleprompter">
+        <meta property="og:title" content="{% block title %}{% endblock %} - Nprompter">
+        <meta property="og:description" content="A Notion-powered web teleprompter">
+        <meta property="og:type" content="website">
         <title>{% block title %}{% endblock %} - Nprompter</title>
         <link href="/nprompter.css" rel="stylesheet"/>
         {% for css_file in custom_css %}<link href="/{{ css_file }}" rel="stylesheet"/>

@@ -1,5 +1,9 @@
-Alternatives to Nprompter
-===============
+---
+title: Alternatives to Nprompter
+description: Compare Nprompter with other online browser teleprompters and understand key differences.
+---
+
+# Alternatives to Nprompter
 
 nprompter is not the only browser-based teleprompter, in fact, I know many of them since I started using them myself before deciding to create this tool. Among the many alternatives I found these to be good:
 

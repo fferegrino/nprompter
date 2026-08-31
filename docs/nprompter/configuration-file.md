@@ -1,3 +1,8 @@
+---
+title: Configuration File Reference
+description: Complete TOML configuration reference for Nprompter fonts, colors, processor settings, and PWA manifest.
+---
+
 # Configuration file
 
 _Nprompter_ looks for a configuration file named `nprompter.toml` in your current working directory (or you can specify a custom path using `--config [PATH]` / `-c [PATH]`). If not provided, it falls back to sensible defaults.

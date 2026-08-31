@@ -1,5 +1,8 @@
 site_name: nprompter
-site_url: https://fferegrino.github.io/nprompter/
+site_description: A browser-based web teleprompter powered by Notion for editing and storing scripts.
+site_author: Antonio Feregrino
+site_url: https://nprompter.org/
+copyright: Copyright &copy; 2026 Antonio Feregrino
 repo_url: https://github.com/fferegrino/nprompter
 repo_name: fferegrino/nprompter
 
@@ -21,6 +24,19 @@ theme:
   features:
     - content.code.copy
     - navigation.sections
+
+plugins:
+  - search
+  - social
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/fferegrino/nprompter
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/feregrino
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/@antonioferegrino
 
 nav:
   - Home: index.md

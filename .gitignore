@@ -13,3 +13,5 @@ site/
 
 .venv/
 *.egg-info/
+.cache/
+

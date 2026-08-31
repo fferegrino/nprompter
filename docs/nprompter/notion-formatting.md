@@ -1,3 +1,8 @@
+---
+title: Notion Formatting & Script Writing
+description: Guide to supported Notion blocks, annotations, LaTeX equations, and custom director cue directives in Nprompter.
+---
+
 # Notion Formatting & Script Writing
 
 _Nprompter_ translates Notion blocks into clean, high-contrast HTML elements designed for readability on camera.

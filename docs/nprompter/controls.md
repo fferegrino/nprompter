@@ -1,3 +1,8 @@
+---
+title: Keyboard Controls & Presenter Remotes
+description: Keyboard shortcuts and wireless presentation remote bindings for scrolling, formatting, and mirroring in Nprompter.
+---
+
 # Keyboard Controls & Presenter Mode
 
 When viewing any teleprompter script in the browser, you can control scrolling, formatting, and navigation in real time using your keyboard or a wireless presentation remote.

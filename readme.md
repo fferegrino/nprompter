@@ -2,11 +2,11 @@
 
 > A browser-based web teleprompter powered by Notion as a backend for editing and storing scripts.
 
-[![Documentation](https://img.shields.io/badge/docs-fferegrino.github.io%2Fnprompter-blue)](https://fferegrino.github.io/nprompter/)
+[![Documentation](https://img.shields.io/badge/docs-nprompter.org-blue)](https://nprompter.org/)
 [![PyPI](https://img.shields.io/pypi/v/nprompter.svg)](https://pypi.org/project/nprompter/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Read the full documentation: [https://fferegrino.github.io/nprompter/](https://fferegrino.github.io/nprompter/)**
+**Read the full documentation: [https://nprompter.org/](https://nprompter.org/)**
 
 ![](https://media.giphy.com/media/jioUQ1Jus86xwa2EBw/giphy.gif)
 
@@ -41,7 +41,7 @@ pip install nprompter
 export NOTION_API_KEY="secret_..."
 ```
 
-*(See the [Notion Integration Guide](https://fferegrino.github.io/nprompter/configuring-notion/create-integration/) to learn how to create your token and share your database).*
+*(See the [Notion Integration Guide](https://nprompter.org/configuring-notion/create-integration/) to learn how to create your token and share your database).*
 
 ### 2. Generate Your Teleprompter
 
@@ -78,4 +78,4 @@ nprompter serve
 | <kbd>F</kbd> | Fullscreen mode |
 | <kbd>H</kbd> | Show keyboard shortcuts help modal |
 
-See the [Keyboard Controls & Remote Guide](https://fferegrino.github.io/nprompter/nprompter/controls/) for all available shortcuts.
+See the [Keyboard Controls & Remote Guide](https://nprompter.org/nprompter/controls/) for all available shortcuts.

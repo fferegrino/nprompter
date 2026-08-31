@@ -1,3 +1,8 @@
+---
+title: Creating a Notion Database
+description: Step-by-step guide to creating and setting up a Notion database and status properties for Nprompter.
+---
+
 # Creating a new Notion database
 
 Though _Nprompter_ works with your already existing databases, this guide will walk you through the creation of a completely new database that will work out of the box.

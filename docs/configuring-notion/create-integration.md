@@ -1,3 +1,8 @@
+---
+title: Creating a Notion Integration
+description: Learn how to create an internal Notion integration, obtain your API token, and connect your database to Nprompter.
+---
+
 # How to use Notion integrations
 
 This guide will show you how to create a Notion integration and grant them permission to access content in your Notion workspace.

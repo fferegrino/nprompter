@@ -1,3 +1,8 @@
+---
+title: Welcome to Nprompter
+description: A browser-based teleprompter powered by Notion as a backend to edit, organize, and store scripts.
+---
+
 # Welcome to Nprompter
 
 > **nprompter** is a browser-based teleprompter powered by Notion as a backend to edit and store your scripts.
