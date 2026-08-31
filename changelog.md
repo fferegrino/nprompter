@@ -1,3 +1,9 @@
+## v4.4.2 (2026-08-31)
+
+### Refactor
+
+- Migrate to stdlib tomllib and importlib.resources.files
+
 ## v4.4.1 (2026-04-12)
 
 ### Feat
