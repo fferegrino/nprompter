@@ -1,8 +1,6 @@
-import importlib
-import importlib.resources
 import os
-
-import tomli
+import tomllib
+from importlib.resources import files
 
 import nprompter
 import nprompter.cli.defaults
@@ -20,10 +18,12 @@ def recursive_update(base, new):
 
 
 def get_config(configuration_file):
-    base_config = tomli.loads(importlib.resources.read_text(nprompter.web, nprompter.cli.defaults.DEFAULT_CONFIG_PATH))
+    base_config = tomllib.loads(
+        files("nprompter.web").joinpath(nprompter.cli.defaults.DEFAULT_CONFIG_PATH).read_text(encoding="utf-8")
+    )
     configuration_file = configuration_file or nprompter.cli.defaults.DEFAULT_CONFIG_PATH
     if os.path.exists(configuration_file):
         with open(configuration_file, "rb") as readable:
-            user_defined_config = tomli.load(readable)
+            user_defined_config = tomllib.load(readable)
         base_config = recursive_update(base_config, user_defined_config)
     return base_config
