@@ -1,13 +1,13 @@
 TOOL_RUN=uv run
 
 fmt:
-	$(TOOL_RUN) black .
-	$(TOOL_RUN) isort .
+	$(TOOL_RUN) ruff format .
+	$(TOOL_RUN) ruff check . --select I --fix
 
 lint:
 	$(TOOL_RUN) pflake8 .
-	$(TOOL_RUN) isort . --check-only
-	$(TOOL_RUN) black . --check
+	$(TOOL_RUN) ruff format . --check
+	$(TOOL_RUN) ruff check . --select I
 
 docs:
 	$(TOOL_RUN) mkdocs build

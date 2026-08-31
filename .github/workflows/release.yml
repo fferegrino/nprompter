@@ -25,10 +25,10 @@ jobs:
       run: uv sync --dev
     - name: Run Flake8
       run: uv run pflake8 .
-    - name: Run iSort
-      run: uv run isort . --check-only
-    - name: Run Black
-      run: uv run black . --check
+    - name: Run Ruff Format
+      run: uv run ruff format . --check
+    - name: Run Ruff Lint (isort)
+      run: uv run ruff check . --select I
     - name: Build and publish package to PyPI
       if: startsWith(github.ref, 'refs/tags/')
       env:
