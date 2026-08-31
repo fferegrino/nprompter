@@ -32,3 +32,10 @@ jobs:
       env:
         NOTION_API_KEY: ${{ secrets.NPROMPTER_TEST_NOTION_API_KEY }}
       run: uv run pytest
+    - name: Test documentation build (including social cards)
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0
+        uv run mkdocs build --strict
